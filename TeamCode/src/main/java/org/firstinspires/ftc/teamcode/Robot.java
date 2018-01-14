@@ -49,8 +49,6 @@ public class Robot {
     public DcMotor inRight;
     public Servo leftLift;
     public Servo rightLift;
-    public Servo leftSensor;
-    public Servo rightSensor;
     public Servo leftWing;
     public Servo rightWing;
     public ColorSensor columnColorLeft;
@@ -99,8 +97,6 @@ public class Robot {
         //Color Sensors
         columnColorRight = hardwareMap.colorSensor.get("ccr");
         columnColorLeft = hardwareMap.colorSensor.get("ccl");
-        frontLeft = hardwareMap.colorSensor.get("fl");
-        frontRight = hardwareMap.colorSensor.get("fr");
 
         //
         columnDistanceRight = hardwareMap.get(DistanceSensor.class, "ccr");
@@ -113,10 +109,6 @@ public class Robot {
         //Lift
         leftLift = hardwareMap.servo.get("llift");
         rightLift = hardwareMap.servo.get("rlift");
-
-        //Sensor Flippers
-        leftSensor = hardwareMap.servo.get("lsensor");
-        rightSensor = hardwareMap.servo.get("rsensor");
 
         //Wings
         leftWing = hardwareMap.servo.get("lwing");
@@ -138,8 +130,6 @@ public class Robot {
         //Config
         /*rightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         centerDrive.setDirection(DcMotorSimple.Direction.REVERSE);*/
-        frontRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         inRight.setDirection(DcMotorSimple.Direction.REVERSE);
         rightWing.setPosition(RIGHT_WING_UP);
         leftWing.setPosition(LEFT_WING_UP);
@@ -147,40 +137,40 @@ public class Robot {
         rightLift.setPosition(RAMP_RIGHT_DOWN);
     }
     public void forward(double power){
+        frontLeftDrive.setPower(-power);
+        frontRightDrive.setPower(power);
+        backLeftDrive.setPower(-power);
+        backRightDrive.setPower(power);
+    }
+    public void backward(double power) {
+        frontLeftDrive.setPower(power);
+        frontRightDrive.setPower(-power);
+        backLeftDrive.setPower(power);
+        backRightDrive.setPower(-power);
+    }
+    public void turnleft(int power){
         frontLeftDrive.setPower(power);
         frontRightDrive.setPower(power);
         backLeftDrive.setPower(power);
         backRightDrive.setPower(power);
     }
-    public void backward(double power) {
+    public void turnright(int power){
         frontLeftDrive.setPower(-power);
         frontRightDrive.setPower(-power);
         backLeftDrive.setPower(-power);
         backRightDrive.setPower(-power);
     }
-    public static void turnleft(DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack, double rightStickY, double leftStickY){
-        leftFront.setPower(rightStickY);
-        rightFront.setPower(leftStickY);
-        leftBack.setPower(rightStickY);
-        rightBack.setPower(leftStickY);
+    public void strafeleft(int power){
+        frontLeftDrive.setPower(-power);
+        frontRightDrive.setPower(-power);
+        backLeftDrive.setPower(power);
+        backRightDrive.setPower(power);
     }
-    public static void turnright(DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack, double rightStickY, double leftStickY){
-        leftFront.setPower(leftStickY);
-        rightFront.setPower(rightStickY);
-        leftBack.setPower(leftStickY);
-        rightBack.setPower(rightStickY);
-    }
-    public static void strafeleft(DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack, double leftStickX){
-        leftFront.setPower(-leftStickX);
-        rightFront.setPower(leftStickX);
-        leftBack.setPower(leftStickX);
-        rightBack.setPower(-leftStickX);
-    }
-    public static void straferight(DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack, double rightStickX){
-        leftFront.setPower(rightStickX);
-        rightFront.setPower(-rightStickX);
-        leftBack.setPower(-rightStickX);
-        rightBack.setPower(rightStickX);
+    public void straferight(int power){
+        frontLeftDrive.setPower(power);
+        frontRightDrive.setPower(power);
+        backLeftDrive.setPower(-power);
+        backRightDrive.setPower(-power);
     }
     public void stopDrive() {
         frontLeftDrive.setPower(0);

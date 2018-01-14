@@ -62,13 +62,11 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (gamepad1.y) {
-                robot.leftDrive.setPower(0.5);
-                robot.rightDrive.setPower(0.5);
+                robot.forward(0.5);
             }
 
             if (gamepad1.a) {
-                robot.leftDrive.setPower(-0.5);
-                robot.rightDrive.setPower(-0.5);
+                robot.backward(0.5);
             }
 
             if (gamepad1.dpad_up) {
@@ -91,21 +89,11 @@ public class TeleOpMain extends LinearOpMode {
                 robot.rightWing.setPosition(robot.RIGHT_WING_UP);
             }
 
-            if (gamepad2.x) {
-                robot.leftSensor.setPosition(robot.LEFT_SENSOR_DOWN);
-                robot.rightSensor.setPosition(robot.RIGHT_SENSOR_DOWN);
-            }
-
-            if (gamepad2.b) {
-                robot.leftSensor.setPosition(robot.LEFT_SENSOR_UP);
-                robot.rightSensor.setPosition(robot.RIGHT_SENSOR_UP);
-            }
-
             if (gamepad2.dpad_up) {
-                robot.forward(0.5);
+                robot.forward(0.7);
             }
             if (gamepad2.dpad_down) {
-                robot.backward(0.5);
+                robot.backward(0.7);
             }
            /* robot.leftDrive.setPower(leftPower);
             robot.rightDrive.setPower(rightPower);
