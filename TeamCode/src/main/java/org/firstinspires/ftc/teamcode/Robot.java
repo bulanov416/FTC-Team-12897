@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.sun.tools.javac.code.Symbol;
 import com.vuforia.CameraDevice;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -60,8 +61,10 @@ public class Robot {
     public ColorSensor juulColorLeft;
     public ColorSensor juulColorRight;
 
-    IntegratingGyroscope imu;
+    IntegratingGyroscope gyro;
     NavxMicroNavigationSensor navxMicro;
+
+    ElapsedTime timer = new ElapsedTime();
 
     public int columnCount = 0;
     public char vuMarkData;
@@ -119,8 +122,8 @@ public class Robot {
         juulColorRight = hardwareMap.colorSensor.get("jcr");
 
         //IMU
-        navxMicro = hardwareMap.get(NavxMicroNavigationSensor.class, "imu");
-        imu = (IntegratingGyroscope)navxMicro;
+        navxMicro = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
+        gyro = (IntegratingGyroscope)navxMicro;
         //Config
         /*rightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         centerDrive.setDirection(DcMotorSimple.Direction.REVERSE);*/
@@ -148,25 +151,25 @@ public class Robot {
         backLeftDrive.setPower(power);
         backRightDrive.setPower(-power);
     }
-    public void turnleft(int power){
+    public void rotateLeft(double power){
         frontLeftDrive.setPower(power);
         frontRightDrive.setPower(power);
         backLeftDrive.setPower(power);
         backRightDrive.setPower(power);
     }
-    public void turnright(int power){
+    public void rotateRight(double power){
         frontLeftDrive.setPower(-power);
         frontRightDrive.setPower(-power);
         backLeftDrive.setPower(-power);
         backRightDrive.setPower(-power);
     }
-    public void strafeleft(int power){
+    public void strafeLeft(double power){
         frontLeftDrive.setPower(-power);
         frontRightDrive.setPower(-power);
         backLeftDrive.setPower(power);
         backRightDrive.setPower(power);
     }
-    public void straferight(int power){
+    public void strafeRight(double power){
         frontLeftDrive.setPower(power);
         frontRightDrive.setPower(power);
         backLeftDrive.setPower(-power);
