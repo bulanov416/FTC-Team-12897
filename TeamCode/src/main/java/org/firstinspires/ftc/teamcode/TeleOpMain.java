@@ -25,25 +25,26 @@ import static java.lang.Math.abs;
 @TeleOp(name="TeleOp")
 public class TeleOpMain extends LinearOpMode {
 
-    float leftPower;
-    float rightPower;
-    float centerPower;
+    float frontLeft = 0;
+    float frontRight = 0;
+    float backLeft = 0;
+    float backRight = 0;
+    float straightPower = 0;
+    float sidePower = 0;
+    double power = 0;
+
 
     public Robot robot;
 
     public void runOpMode() throws InterruptedException {
-        telemetry.addLine("1");
-        telemetry.update();
+
         this.robot = new Robot(hardwareMap);
-        telemetry.addLine("2");
-        telemetry.update();
         robot.init();
         waitForStart();
-        while (opModeIsActive()) {
-            leftPower = gamepad1.left_stick_y;
-            rightPower = gamepad1.right_stick_y;
-            centerPower = gamepad1.left_stick_x;
 
+        while (opModeIsActive()) {
+            straightPower = gamepad1.left_stick_y;
+            sidePower = gamepad1.left_stick_x;
 
             if (gamepad1.right_bumper) {
                 robot.inLeft.setPower(0.75);
@@ -61,14 +62,6 @@ public class TeleOpMain extends LinearOpMode {
                 robot.inRight.setPower(0);
             }
 
-            if (gamepad1.y) {
-                robot.forward(0.5);
-            }
-
-            if (gamepad1.a) {
-                robot.backward(0.5);
-            }
-
             if (gamepad1.dpad_up) {
                 robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
                 robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
@@ -79,25 +72,41 @@ public class TeleOpMain extends LinearOpMode {
                 robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
             }
 
-            if (gamepad2.dpad_left) {
-                robot.leftWing.setPosition(robot.LEFT_WING_DOWN);
-                robot.rightWing.setPosition(robot.RIGHT_WING_DOWN);
+            if (gamepad1.a) {
+               robot.frontRelic.setPosition(robot.RELIC_FRONT_UP);
+            }
+            if (gamepad1.y) {
+                robot.frontRelic.setPosition(robot.RELIC_FRONT_DOWN);
+            }
+            if (gamepad1.x) {
+                robot.backRelic.setPosition(robot.RELIC_BACK_UP);
+            }
+            if (gamepad1.b) {
+                robot.backRelic.setPosition(robot.RELIC_BACK_DOWN);
             }
 
-            if (gamepad2.dpad_right) {
-                robot.leftWing.setPosition(robot.LEFT_WING_UP);
-                robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            if (sidePower > 0.5) {
+                robot.strafeRight(sidePower);
             }
+            else if (sidePower < -0.5) {
+                robot.strafeLeft(-sidePower);
+            }
+            else if (straightPower > 0) {
+                robot.backward(straightPower);
 
-            if (gamepad2.dpad_up) {
-                robot.forward(0.7);
             }
-            if (gamepad2.dpad_down) {
-                robot.backward(0.7);
+            else if (straightPower < 0) {
+                robot.forward(-straightPower);
             }
-           /* robot.leftDrive.setPower(leftPower);
-            robot.rightDrive.setPower(rightPower);
-            robot.centerDrive.setPower(centerPower);*/
+            else if (gamepad1.right_stick_y > 0) {
+                robot.rotateLeft(gamepad1.right_stick_y);
+            }
+            else if (gamepad1.right_stick_y < 0) {
+                robot.rotateRight (-gamepad1.right_stick_y);
+            }
+            else {
+                robot.stopDrive();
+            }
         }
     }
 }

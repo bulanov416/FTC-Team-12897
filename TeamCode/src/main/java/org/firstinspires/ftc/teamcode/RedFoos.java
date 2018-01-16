@@ -2,10 +2,10 @@
 package org.firstinspires.ftc.teamcode;
 
 //Import all necessary classes
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.CameraDevice;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-//Name the Autonomous "Avi's Autonomous
 @Autonomous(name="RedFoos")
 public class RedFoos extends LinearOpMode {
 
@@ -131,27 +130,17 @@ public class RedFoos extends LinearOpMode {
         robot.stopDrive();
 
         if (opModeIsActive()) {
-            if ((robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                rotateCounterClockwise(270, 0.45);
-            }
+            rotateCounterClockwise(270, 0.45);
         }
         robot.between();
         if (opModeIsActive()) {
-            if ((robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                rotateCounterClockwise(270, 0.25);
-            }
+            rotateClockwise(270, 0.25);
         }
+        robot.between();
+        robot.backward(0.4);
+        sleep(2000);
 
-        //Turn to 270
-       /* if (opModeIsActive()) {
-            if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) < 270) {
-                rotateClockwise(270);
-            }
-            else if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                rotateCounterClockwise(270);
-            }
-        }
-        sleep(500);
+       /*
         if (opModeIsActive()) {
             if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) < 270) {
                 rotateClockwise(270);
@@ -200,17 +189,13 @@ public class RedFoos extends LinearOpMode {
                 rotateCounterClockwise(270);
             }
         }
-        sleep(500);
-        robot.strafeLeft(0.5);
-        sleep(600);
-        robot.stopDrive();
+        */
         //Strafe to Correct Column
-        robot.strafeRight(0.47);// was 0.4
+        robot.strafeRight(0.3);// was 0.4
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
             telemetry.addLine("Looking for Right");
             telemetry.update();
         }
-        
         if (robot.vuMarkData == 'C' || robot.vuMarkData == 'L') {
             sleep(400);
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
@@ -227,18 +212,15 @@ public class RedFoos extends LinearOpMode {
         }
 
         //Dump Blocks
-        robot.stopDrive();
-        robot.strafeLeft(0.4);
-        sleep(170);
-        robot.stopDrive();
-        robot.forward(0.25);
+        sleep(500);
+        robot.forward(0.5);
         sleep(500);
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
+        sleep(2000);
+        robot.forward(0.5);
         sleep(1000);
-        robot.forward(0.25);
-        sleep(500);
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);

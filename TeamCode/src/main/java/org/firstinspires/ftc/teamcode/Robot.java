@@ -52,6 +52,8 @@ public class Robot {
     public Servo rightLift;
     public Servo leftWing;
     public Servo rightWing;
+    public Servo frontRelic;
+    public Servo backRelic;
     public ColorSensor columnColorLeft;
     public ColorSensor columnColorRight;
     public DistanceSensor columnDistanceLeft;
@@ -82,6 +84,10 @@ public class Robot {
     public static double LEFT_SENSOR_DOWN = 0.12;
     public static double RIGHT_SENSOR_UP = 0.12;// was 0.5
     public static double RIGHT_SENSOR_DOWN = 0.98;
+    public static double RELIC_FRONT_DOWN = 0.1;
+    public static double RELIC_FRONT_UP = 0.9;
+    public static double RELIC_BACK_DOWN = 0.1;
+    public static double RELIC_BACK_UP = 0.9;
 
     public static double HEADING = 0;
     public static double ERROR = 0.5;
@@ -117,6 +123,10 @@ public class Robot {
         leftWing = hardwareMap.servo.get("lwing");
         rightWing = hardwareMap.servo.get("rwing");
 
+        //Relic
+        frontRelic = hardwareMap.servo.get("frelic");
+        backRelic = hardwareMap.servo.get("brelic");
+
         //Juul Sensors
         juulColorLeft = hardwareMap.colorSensor.get("jcl");
         juulColorRight = hardwareMap.colorSensor.get("jcr");
@@ -150,6 +160,23 @@ public class Robot {
         frontRightDrive.setPower(-power);
         backLeftDrive.setPower(power);
         backRightDrive.setPower(-power);
+    }
+    public void leftOnly (double power) {
+        frontLeftDrive.setPower(power);
+        backLeftDrive.setPower(power);
+    }
+    public void rightOnly (double power) {
+        frontRightDrive.setPower(power);
+        backRightDrive.setPower(power);
+    }
+
+    public void forwardLeft(double power) {
+        frontLeftDrive.setPower(power);
+        backRightDrive.setPower(power);
+    }
+    public void forwardRight(double power) {
+        frontRightDrive.setPower(-power);
+        backLeftDrive.setPower(-power);
     }
     public void rotateLeft(double power){
         frontLeftDrive.setPower(power);
