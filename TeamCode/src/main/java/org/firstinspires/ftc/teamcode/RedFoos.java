@@ -2,7 +2,6 @@
 package org.firstinspires.ftc.teamcode;
 
 //Import all necessary classes
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.CameraDevice;
@@ -42,17 +41,6 @@ public class RedFoos extends LinearOpMode {
         this.robot = new Robot(hardwareMap);
         robot.init();
 
-        telemetry.log().add("Gyro Calibrating. Do Not Move!");
-
-        robot.timer.reset();
-        while (robot.navxMicro.isCalibrating())  {
-            telemetry.addData("calibrating", "%s", Math.round(robot.timer.seconds())%2==0 ? "|.." : "..|");
-            telemetry.update();
-            Thread.sleep(50);
-        }
-        telemetry.log().clear();
-        telemetry.log().add("Gyro Calibrated. Press Start.");
-
         //Starts Robot
         waitForStart();
         sleep(500);
@@ -68,7 +56,7 @@ public class RedFoos extends LinearOpMode {
         sleep(1000);
 
         //Scans for a vuMark
-        /*if (vuMark == (vuMark.LEFT)) {
+        if (vuMark == (vuMark.LEFT)) {
             telemetry.addLine("Left vuMark detected");
             telemetry.update();
             robot.vuMarkData = 'L';
@@ -83,13 +71,14 @@ public class RedFoos extends LinearOpMode {
         } else {
             telemetry.addLine("No vuMark detected");
             telemetry.update();
-            robot.vuMa
+            robot.vuMarkData = 'R';
+        }
         //Set Right Wing Down
         robot.rightWing.setPosition(robot.RIGHT_WING_DOWN);
         sleep(500);
 
         //Scan Juul
-        /*if (robot.juulColorRight.blue() > robot.juulColorRight.red()) {
+        if (robot.juulColorRight.blue() > robot.juulColorRight.red()) {
             robot.rotateRight(0.25);
             sleep(250);
             robot.stopDrive();
@@ -109,9 +98,10 @@ public class RedFoos extends LinearOpMode {
             sleep(250);
             robot.stopDrive();
         }
+        robot.rightWing.setPosition(robot.RIGHT_WING_UP);
         sleep(500);
-        */
-        // Drive forward for 1.5 Seconds
+
+        // Drive forward for 2 Seconds
         robot.forward(0.6);
         sleep(2000);
         robot.stopDrive();
@@ -126,7 +116,7 @@ public class RedFoos extends LinearOpMode {
 
         //Drive Forward Half Second
         robot.forward(0.6);
-        sleep(500);
+        sleep(200);
         robot.stopDrive();
 
         if (opModeIsActive()) {
@@ -140,58 +130,13 @@ public class RedFoos extends LinearOpMode {
         robot.backward(0.4);
         sleep(2000);
 
-       /*
-        if (opModeIsActive()) {
-            if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) < 270) {
-                rotateClockwise(270);
-            }
-            else if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                rotateCounterClockwise(270);
-            }
-        }
-        sleep(500);
-        //Drive Forwards for 2 seconds and Intake Glyphs
-        robot.forward(0.5);
-        robot.intakeGlyph(0.9);
-        sleep(2500);
-        robot.between();
-
-        robot.backward(0.6);
-        sleep(600);
-        robot.between();
-
-        if (opModeIsActive()) {
-            if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) < 270) {
-                rotateClockwise(270);
-            }
-            else if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                rotateCounterClockwise(270);
-            }
-        }
-
-        robot.between();
-
-        //Drive Backwards
-        robot.backward(-0.6);
-        sleep(3000);
-        robot.stopDrive();
-
         //Drive Forwards
         robot.forward(0.25);
         sleep(180);//was 100
         robot.stopDrive();
 
-        // Check Rotation, then set to 270
-        if (opModeIsActive()) {
-            if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) < 270) {
-                rotateClockwise(270);
-            } else if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                rotateCounterClockwise(270);
-            }
-        }
-        */
         //Strafe to Correct Column
-        robot.strafeRight(0.3);// was 0.4
+        robot.strafeRight(0.2);// was 0.4
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
             telemetry.addLine("Looking for Right");
             telemetry.update();
@@ -265,7 +210,6 @@ public class RedFoos extends LinearOpMode {
     public void rotateClockwise(double target, double power) {
         double angle = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
         while (angle > (target + 2.5) || angle < (target -2.5) && opModeIsActive()) {
-            //Clockwise
             angle = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
             robot.rotateRight(power);
         }
@@ -274,7 +218,6 @@ public class RedFoos extends LinearOpMode {
     public void rotateCounterClockwise(double target, double power) {
         double angle = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
         while (angle > (target + 2) || angle < (target -2) && opModeIsActive()) {
-            //Clockwise
             angle = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
             robot.rotateLeft(power);
         }

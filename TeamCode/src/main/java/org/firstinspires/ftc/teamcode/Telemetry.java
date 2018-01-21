@@ -61,10 +61,6 @@ public class Telemetry extends LinearOpMode {
             telemetry.update();
             telemetry.addData("Column Distance Left: ", robot.getDL());
             telemetry.addData("Column Distance Right: ", robot.getDR());
-            telemetry.addData("FrontLeftRed: ", robot.frontLeft.red());
-            telemetry.addData("FrontLeftBlue: ", robot.frontLeft.blue());
-            telemetry.addData("FrontRightRed: ", robot.frontRight.red());
-            telemetry.addData("FrontRightBlue: ", robot.frontRight.blue());
             telemetry.addData("ColumnLeftRed: ", robot.columnColorLeft.red());
             telemetry.addData("ColumnLeftBlue: ", robot.columnColorLeft.blue());
             telemetry.addData("ColumnRightRed: ", robot.columnColorRight.red());

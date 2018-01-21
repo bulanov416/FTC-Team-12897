@@ -33,7 +33,6 @@ public class TeleOpMain extends LinearOpMode {
     float sidePower = 0;
     double power = 0;
 
-
     public Robot robot;
 
     public void runOpMode() throws InterruptedException {
@@ -73,40 +72,36 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (gamepad1.a) {
-               robot.frontRelic.setPosition(robot.RELIC_FRONT_UP);
+               robot.relic.setPower(0.5);
             }
             if (gamepad1.y) {
-                robot.frontRelic.setPosition(robot.RELIC_FRONT_DOWN);
-            }
-            if (gamepad1.x) {
-                robot.backRelic.setPosition(robot.RELIC_BACK_UP);
-            }
-            if (gamepad1.b) {
-                robot.backRelic.setPosition(robot.RELIC_BACK_DOWN);
-            }
-
-            if (sidePower > 0.5) {
-                robot.strafeRight(sidePower);
-            }
-            else if (sidePower < -0.5) {
-                robot.strafeLeft(-sidePower);
-            }
-            else if (straightPower > 0) {
-                robot.backward(straightPower);
-
-            }
-            else if (straightPower < 0) {
-                robot.forward(-straightPower);
-            }
-            else if (gamepad1.right_stick_y > 0) {
-                robot.rotateLeft(gamepad1.right_stick_y);
-            }
-            else if (gamepad1.right_stick_y < 0) {
-                robot.rotateRight (-gamepad1.right_stick_y);
+                robot.relic.setPower(-0.5);
             }
             else {
-                robot.stopDrive();
+                robot.relic.setPower(0);
             }
+            float gamepad1LeftY = -gamepad1.left_stick_y;
+            float gamepad1LeftX = gamepad1.left_stick_x;
+            float gamepad1RightX = gamepad1.right_stick_x;
+
+            // holonomic formulas
+
+            frontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+            frontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+            backRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+            backLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+
+            // clip the right/left values so that the values never exceed +/- 1
+            frontRight = Range.clip(frontRight, -1, 1);
+            frontLeft = Range.clip(frontLeft, -1, 1);
+            backLeft = Range.clip(backLeft, -1, 1);
+            backRight = Range.clip(backRight, -1, 1);
+
+            // write the values to the motors
+            robot.frontRightDrive.setPower(frontRight);
+            robot.frontLeftDrive.setPower(frontLeft);
+            robot.backLeftDrive.setPower(backLeft);
+            robot.backRightDrive.setPower(backRight);
         }
     }
 }
