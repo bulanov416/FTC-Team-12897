@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -32,7 +33,6 @@ public class Robot {
     public DistanceSensor columnDistanceRight;
     public ColorSensor juulColorLeft;
     public ColorSensor juulColorRight;
-    public IntegratingGyroscope gyro;
     public NavxMicroNavigationSensor navxMicro;
     public ElapsedTime timer = new ElapsedTime();
     public char vuMarkData;
@@ -92,7 +92,7 @@ public class Robot {
         juulColorRight = hardwareMap.colorSensor.get("jcr");
 
         //IMU
-        gyro = hardwareMap.get(IntegratingGyroscope.class, "navx");
+
     }
 
     public void init() {

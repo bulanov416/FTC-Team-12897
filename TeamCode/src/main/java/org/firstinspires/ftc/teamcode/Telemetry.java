@@ -53,8 +53,6 @@ public class Telemetry extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-            Orientation angles = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
             telemetry.addData("heading", formatAngle(angles.angleUnit, angles.firstAngle));
             telemetry.addData("roll", formatAngle(angles.angleUnit, angles.secondAngle));
             telemetry.addData("pitch", "%s deg", formatAngle(angles.angleUnit, angles.thirdAngle));
