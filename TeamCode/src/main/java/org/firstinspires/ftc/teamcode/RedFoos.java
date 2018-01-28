@@ -147,9 +147,13 @@ public class RedFoos extends LinearOpMode {
         sleep(2000);
 
         //Drive Forwards
-        robot.forward(0.25);
-        sleep(180);//was 100
+        robot.forward(0.45);
+        sleep(200);//was 100
         robot.stopDrive();
+
+        if (opModeIsActive()) {
+            rotateClockwise(270, 0.25);
+        }
 
         //Strafe to Correct Column
         robot.strafeRight(0.2);// was 0.4
@@ -172,8 +176,17 @@ public class RedFoos extends LinearOpMode {
             }
         }
 
+        robot.strafeLeft(0.1);
+        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
+            telemetry.addLine("Looking for Left");
+            telemetry.update();
+        }
+        robot.stopDrive();
+
         //Dump Blocks
         sleep(500);
+        robot.strafeLeft(0.13);
+        sleep(190);
         robot.forward(0.5);
         sleep(500);
         robot.stopDrive();
