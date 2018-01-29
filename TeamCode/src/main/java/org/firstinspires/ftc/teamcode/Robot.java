@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -31,8 +29,8 @@ public class Robot {
     public ColorSensor columnColorRight;
     public DistanceSensor columnDistanceLeft;
     public DistanceSensor columnDistanceRight;
-    public ColorSensor juulColorLeft;
-    public ColorSensor juulColorRight;
+    public ColorSensor jewelColorLeft;
+    public ColorSensor jewelColorRight;
     public NavxMicroNavigationSensor navxMicro;
     public ElapsedTime timer = new ElapsedTime();
     public char vuMarkData;
@@ -87,9 +85,9 @@ public class Robot {
         frontRelic = hardwareMap.servo.get("frelic");
         backRelic = hardwareMap.servo.get("brelic");
 
-        //Juul Sensors
-        juulColorLeft = hardwareMap.colorSensor.get("jcl");
-        juulColorRight = hardwareMap.colorSensor.get("jcr");
+        //jewel Sensors
+        jewelColorLeft = hardwareMap.colorSensor.get("jcl");
+        jewelColorRight = hardwareMap.colorSensor.get("jcr");
 
         //IMU
 
@@ -97,6 +95,9 @@ public class Robot {
 
     public void init() {
         inRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         rightWing.setPosition(RIGHT_WING_UP);
         leftWing.setPosition(LEFT_WING_UP);
         leftLift.setPosition(RAMP_LEFT_DOWN);

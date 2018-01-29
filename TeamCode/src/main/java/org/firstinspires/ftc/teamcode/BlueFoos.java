@@ -1,12 +1,11 @@
-// Get the FIRST Team Code Package
 package org.firstinspires.ftc.teamcode;
 
-//Import all necessary classes
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.CameraDevice;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,11 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
 import java.util.Date;
 
-@Autonomous(name="RedFoos")
-public class RedFoos extends LinearOpMode {
-
+/**
+ * Created by Alex Bulanov on 1/28/2018.
+ */
+@Autonomous(name="BlueFoos")
+public class BlueFoos extends LinearOpMode {
     // Creates a variable of type robot, titled robot.
     public Robot robot;
 
@@ -96,22 +98,22 @@ public class RedFoos extends LinearOpMode {
 
         //Scan Jewel
         if (robot.jewelColorRight.blue() > robot.jewelColorRight.red()) {
-            robot.rotateRight(0.23); // was 0.25
+            robot.rotateLeft(0.23); // was 0.25
             sleep(250);
             robot.stopDrive();
             robot.rightWing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
-            robot.rotateLeft(0.23); // was  0.25
+            robot.rotateRight(0.23); // was  0.25
             sleep(250);
             robot.stopDrive();
         }
         else if (robot.jewelColorRight.blue() < robot.jewelColorRight.red()) {
-            robot.rotateLeft(0.23);
+            robot.rotateRight(0.23);
             sleep(250);
             robot.stopDrive();
             robot.rightWing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
-            robot.rotateRight(0.23);
+            robot.rotateLeft(0.23);
             sleep(250);
             robot.stopDrive();
         }
@@ -119,15 +121,11 @@ public class RedFoos extends LinearOpMode {
         sleep(500);
 
         // Drive forward for 2 Seconds
-        robot.forward(0.56); // was 0.6
-        sleep(2000);
-        robot.stopDrive();
-
         //Drive Backwards to stone
         long startTime = System.currentTimeMillis();
         long timeElapsed = 0L;
         robot.forward(-0.43); //was 0.4
-        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 4000) {
+        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 5500) {
             timeElapsed = (new Date()).getTime() - startTime;
             telemetry.addLine("Looking for Balancing Stone");
             telemetry.update();
@@ -135,7 +133,7 @@ public class RedFoos extends LinearOpMode {
         robot.stopDrive();
 
         //Drive Forward Half Second
-        robot.forward(0.6); //was 0.6
+        robot.backward(0.6); //was 0.6
         sleep(200);
         robot.stopDrive();
 
@@ -151,7 +149,7 @@ public class RedFoos extends LinearOpMode {
         sleep(2500);
 
         //Drive Forwards
-        robot.forward(0.4); // was 0.45
+        robot.forward(0.39); // was 0.45
         sleep(300);//was 100
         robot.stopDrive();
 
@@ -164,14 +162,15 @@ public class RedFoos extends LinearOpMode {
         robot.between();
 
         if (opModeIsActive()) {
-            rotateCounterClockwise(270, 0.3); // was 0.25
+            rotateClockwise(270, 0.3); // was 0.25
         }
         robot.between();
-        //Strafe to Correct Column
-        robot.forward(0.47);
-        sleep(330);
+
+        robot.forward(0.4);
+        sleep(300);
         robot.between();
-        robot.strafeLeft(0.2);// was 0.2
+        //Strafe to Correct Column
+        robot.strafeLeft(0.14);// was 0.2
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
             telemetry.addLine("Looking for Right");
             telemetry.update();
@@ -200,7 +199,7 @@ public class RedFoos extends LinearOpMode {
 
         //Dump Blocks
         sleep(500);
-        robot.strafeRight(0.12);// was 0.13
+        robot.strafeLeft(0.12);// was 0.13
         sleep(100);
         robot.forward(0.25); // was 0.5
         sleep(500);

@@ -42,20 +42,29 @@ public class TeleOpMain extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.leftWing.setPosition(robot.LEFT_WING_UP);
             straightPower = gamepad1.left_stick_y;
             sidePower = gamepad1.left_stick_x;
 
             if (gamepad1.right_bumper) {
-                robot.inLeft.setPower(0.75);
-                robot.inRight.setPower(0.75);
+                robot.inLeft.setPower(0.95);
+                robot.inRight.setPower(0.95);
             } else if (!gamepad1.right_bumper) {
                 robot.inLeft.setPower(0);
                 robot.inRight.setPower(0);
             }
 
+            if (gamepad1.dpad_left) {
+                robot.strafeLeft(0.2);
+            }
+            if (gamepad1.dpad_right) {
+                robot.strafeRight(0.2);
+            }
+
             if (gamepad1.left_bumper) {
-                robot.inLeft.setPower(-0.75);
-                robot.inRight.setPower(-0.75);
+                robot.inLeft.setPower(-0.95);
+                robot.inRight.setPower(-0.95);
             } else if (!gamepad1.left_bumper) {
                 robot.inLeft.setPower(0);
                 robot.inRight.setPower(0);
@@ -71,15 +80,14 @@ public class TeleOpMain extends LinearOpMode {
                 robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
             }
 
-            if (gamepad1.a) {
-               robot.relic.setPower(0.5);
+           /* if (gamepad1.dpad_left) {
+                robot.strafeLeft(0.25);
             }
-            if (gamepad1.y) {
-                robot.relic.setPower(-0.5);
+
+            if (gamepad1.dpad_right) {
+                robot.strafeRight(0.25);
             }
-            else {
-                robot.relic.setPower(0);
-            }
+            */
             float gamepad1LeftY = -gamepad1.left_stick_y;
             float gamepad1LeftX = gamepad1.left_stick_x;
             float gamepad1RightX = gamepad1.right_stick_x;
@@ -102,6 +110,11 @@ public class TeleOpMain extends LinearOpMode {
             robot.frontLeftDrive.setPower(frontLeft);
             robot.backLeftDrive.setPower(backLeft);
             robot.backRightDrive.setPower(backRight);
+            telemetry.addData("frontRightPower: ", frontRight);
+            telemetry.addData("frontLeftPower: ", frontLeft);
+            telemetry.addData("backRightPower: ", backRight);
+            telemetry.addData("backLeftPower: ", backLeft);
+            telemetry.update();
         }
     }
 }

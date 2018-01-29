@@ -1,12 +1,11 @@
-// Get the FIRST Team Code Package
 package org.firstinspires.ftc.teamcode;
 
-//Import all necessary classes
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.CameraDevice;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,11 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
 import java.util.Date;
 
-@Autonomous(name="RedFoos")
-public class RedFoos extends LinearOpMode {
-
+/**
+ * Created by Alex Bulanov on 1/28/2018.
+ */
+@Autonomous(name="BlueBBallFoos")
+public class BlueBBallFoos extends LinearOpMode {
     // Creates a variable of type robot, titled robot.
     public Robot robot;
 
@@ -151,7 +153,7 @@ public class RedFoos extends LinearOpMode {
         sleep(2500);
 
         //Drive Forwards
-        robot.forward(0.4); // was 0.45
+        robot.forward(0.39); // was 0.45
         sleep(300);//was 100
         robot.stopDrive();
 
@@ -168,10 +170,7 @@ public class RedFoos extends LinearOpMode {
         }
         robot.between();
         //Strafe to Correct Column
-        robot.forward(0.47);
-        sleep(330);
-        robot.between();
-        robot.strafeLeft(0.2);// was 0.2
+        robot.strafeLeft(0.14);// was 0.2
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
             telemetry.addLine("Looking for Right");
             telemetry.update();
