@@ -38,16 +38,23 @@ public class TeleOpMain extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         this.robot = new Robot(hardwareMap);
-        robot.init();
+
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            /*robot.rightWing.setPosition(robot.RIGHT_WING_UP);
             robot.leftWing.setPosition(robot.LEFT_WING_UP);
             straightPower = gamepad1.left_stick_y;
             sidePower = gamepad1.left_stick_x;
+            */
+            float gamepad1LeftY = -gamepad1.left_stick_y;
+            float gamepad1RightY = gamepad1.right_stick_y;
+            robot.frontLeftDrive.setPower(gamepad1LeftY);
+            robot.frontRightDrive.setPower(gamepad1RightY);
+            robot.backLeftDrive.setPower(gamepad1LeftY);
+            robot.backRightDrive.setPower(gamepad1RightY);
 
-            if (gamepad1.right_bumper) {
+           if (gamepad1.right_bumper) {
                 robot.inLeft.setPower(0.95);
                 robot.inRight.setPower(0.95);
             } else if (!gamepad1.right_bumper) {
@@ -80,21 +87,32 @@ public class TeleOpMain extends LinearOpMode {
                 robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
             }
 
-           /* if (gamepad1.dpad_left) {
+            if (gamepad2.right_bumper) {
+                robot.inLeft.setPower(0.95);
+                robot.inRight.setPower(-0.95);
+            }
+
+            if (gamepad2.left_bumper) {
+                robot.inLeft.setPower(-0.95);
+                robot.inRight.setPower(0.95);
+            }
+
+
+           if (gamepad1.dpad_left) {
                 robot.strafeLeft(0.25);
             }
 
             if (gamepad1.dpad_right) {
                 robot.strafeRight(0.25);
             }
-            */
-            float gamepad1LeftY = -gamepad1.left_stick_y;
+
+           /* //float gamepad1LeftY = -gamepad1.left_stick_y;
             float gamepad1LeftX = gamepad1.left_stick_x;
             float gamepad1RightX = gamepad1.right_stick_x;
 
             // holonomic formulas
 
-            frontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+           /* frontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
             frontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
             backRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
             backLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
@@ -110,11 +128,14 @@ public class TeleOpMain extends LinearOpMode {
             robot.frontLeftDrive.setPower(frontLeft);
             robot.backLeftDrive.setPower(backLeft);
             robot.backRightDrive.setPower(backRight);
+
+           /*
             telemetry.addData("frontRightPower: ", frontRight);
             telemetry.addData("frontLeftPower: ", frontLeft);
             telemetry.addData("backRightPower: ", backRight);
             telemetry.addData("backLeftPower: ", backLeft);
             telemetry.update();
+            */
         }
     }
 }

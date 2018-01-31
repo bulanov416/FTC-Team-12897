@@ -16,6 +16,7 @@ public class Robot {
     public DcMotor backLeftDrive;
     public DcMotor frontRightDrive;
     public DcMotor backRightDrive;
+
     public DcMotor inLeft;
     public DcMotor inRight;
     public DcMotor relic;
@@ -49,6 +50,7 @@ public class Robot {
     public static double RELIC_BACK_DOWN = 0.1;
     public static double RELIC_BACK_UP = 0.9;
 
+
     public HardwareMap map;
 
     public Robot (HardwareMap hardwareMap) {
@@ -59,6 +61,7 @@ public class Robot {
         frontRightDrive = hardwareMap.dcMotor.get("fr");
         backLeftDrive = hardwareMap.dcMotor.get("bl");
         backRightDrive = hardwareMap.dcMotor.get("br");
+
 
         //Color Sensors
         columnColorRight = hardwareMap.colorSensor.get("ccr");
@@ -91,6 +94,7 @@ public class Robot {
 
         //IMU
 
+
     }
 
     public void init() {
@@ -98,10 +102,11 @@ public class Robot {
         backRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightWing.setPosition(RIGHT_WING_UP);
+        /*rightWing.setPosition(RIGHT_WING_UP);
         leftWing.setPosition(LEFT_WING_UP);
         leftLift.setPosition(RAMP_LEFT_DOWN);
         rightLift.setPosition(RAMP_RIGHT_DOWN);
+        */
     }
 
     public void forward(double power){
@@ -197,4 +202,5 @@ public class Robot {
         double distanceLeft = columnDistanceLeft.getDistance(DistanceUnit.CM);
         return distanceLeft;
     }
+
 }
