@@ -126,7 +126,7 @@ public class RedFoos extends LinearOpMode {
         //Drive Backwards to stone
         long startTime = System.currentTimeMillis();
         long timeElapsed = 0L;
-        robot.forward(-0.43); //was 0.4
+        robot.forward(-0.7); //was 0.4
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 4000) {
             timeElapsed = (new Date()).getTime() - startTime;
             telemetry.addLine("Looking for Balancing Stone");
@@ -140,11 +140,11 @@ public class RedFoos extends LinearOpMode {
         robot.stopDrive();
 
         if (opModeIsActive()) {
-            rotateCounterClockwise(270, 0.33); // was 0.45
+            rotate(90, 0.35); // was 0.45
         }
         robot.between();
         if (opModeIsActive()) {
-            rotateClockwise(270, 0.25); // was 0.25
+            rotate(90, 0.25); // was 0.25
         }
         robot.between();
         robot.backward(0.55); // was 0.4
@@ -156,52 +156,54 @@ public class RedFoos extends LinearOpMode {
         robot.stopDrive();
 
         if (opModeIsActive()) {
-            rotateClockwise(270, 0.3); // was 0.25
+            rotate(90, 0.30); // was 0.25
         }
+        robot.between();
 
-        robot.strafeRight(0.17);
+        robot.strafeLeft(0.17);
         sleep(660);
         robot.between();
 
         if (opModeIsActive()) {
-            rotateCounterClockwise(270, 0.3); // was 0.25
+            rotate(90, 0.22); // was 0.25
         }
         robot.between();
-        //Strafe to Correct Column
-        robot.forward(0.47);
-        sleep(330);
+        robot.backward(0.34);
+        sleep(300);
         robot.between();
-        robot.strafeLeft(0.2);// was 0.2
+        robot.between();
+        //Strafe to Correct Column
+        robot.strafeRight(0.14);// was 0.2
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
             telemetry.addLine("Looking for Right");
             telemetry.update();
         }
         if (robot.vuMarkData == 'C' || robot.vuMarkData == 'L') {
-            sleep(400);
+            sleep(550);
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
                 telemetry.addLine("Looking for Center");
                 telemetry.update();
             }
         }
         if (robot.vuMarkData == 'L') {
-            sleep(400);
+            sleep(550);
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
                 telemetry.addLine("Looking for Left");
                 telemetry.update();
             }
         }
-
-        robot.strafeRight(0.14);//  was 0.1
+        robot.between();
+        robot.strafeLeft(0.12);//  was 0.1
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
-            telemetry.addLine("Looking for Left");
+            telemetry.addLine("Correction");
             telemetry.update();
         }
         robot.stopDrive();
 
         //Dump Blocks
-        sleep(500);
-        robot.strafeRight(0.12);// was 0.13
-        sleep(100);
+        //sleep(500);
+        //robot.strafeRight(0.15);// was 0.13
+        //sleep(100);
         robot.forward(0.25); // was 0.5
         sleep(500);
         robot.stopDrive();
@@ -251,6 +253,7 @@ public class RedFoos extends LinearOpMode {
         sleep(500);
         robot.stopDrive();*/
     }
+
     public void rotateClockwise(double target, double power) {
         double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
         while (angle > (target + 2.5) || angle < (target -2.5) && opModeIsActive()) {
@@ -266,5 +269,22 @@ public class RedFoos extends LinearOpMode {
             robot.rotateLeft(power);
         }
         robot.stopDrive();
+    }
+
+    public void rotate(double target, double power) {
+        double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        if (angle > target && opModeIsActive()) {
+            while (angle > target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                robot.rotateRight(power);
+            }
+            robot.stopDrive();
+        } else if (angle < target && opModeIsActive()) {
+            while (angle < target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                robot.rotateLeft(power);
+            }
+            robot.stopDrive();
+        }
     }
 }

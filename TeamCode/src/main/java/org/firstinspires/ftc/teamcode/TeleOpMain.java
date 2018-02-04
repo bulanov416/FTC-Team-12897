@@ -97,6 +97,19 @@ public class TeleOpMain extends LinearOpMode {
                 robot.inRight.setPower(0.95);
             }
 
+            if (gamepad2.x) {
+                robot.backRelic.setPosition(robot.RELIC_BACK_DOWN);
+            }
+            if (gamepad2.b) {
+                robot.backRelic.setPosition(robot.RELIC_BACK_EXTENDED);
+            }
+            if (gamepad2.a) {
+                robot.frontRelic.setPosition(robot.RELIC_FRONT_UP);
+            }
+            if (gamepad2.y) {
+                robot.frontRelic.setPosition(robot.RELIC_FRONT_DOWN);
+            }
+
 
            if (gamepad1.dpad_left) {
                 robot.strafeLeft(0.25);
@@ -106,6 +119,17 @@ public class TeleOpMain extends LinearOpMode {
                 robot.strafeRight(0.25);
             }
 
+            if (gamepad1.a) {
+               robot.relic.setPower(1);
+            } else if (!gamepad1.a) {
+               robot.relic.setPower(0);
+            }
+
+            if (gamepad1.y) {
+                robot.relic.setPower(-1);
+            } else if (!gamepad1.y) {
+                robot.relic.setPower(0);
+            }
            /* //float gamepad1LeftY = -gamepad1.left_stick_y;
             float gamepad1LeftX = gamepad1.left_stick_x;
             float gamepad1RightX = gamepad1.right_stick_x;

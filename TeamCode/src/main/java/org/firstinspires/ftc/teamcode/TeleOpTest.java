@@ -24,29 +24,40 @@ public class TeleOpTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-           if (gamepad1.x) {
-               robot.frontLeftDrive.setPower(0.2);
+           if (gamepad1.dpad_up) {
+               robot.forward(0.8);
            } else {
-               robot.frontLeftDrive.setPower(0);
+               robot.stopDrive();
            }
 
-
-           if (gamepad1.y) {
-               robot.frontRightDrive.setPower(0.2);
+           if (gamepad1.dpad_down) {
+               robot.backward(0.8);
            } else {
-               robot.frontRightDrive.setPower(0);
+               robot.stopDrive();
+           }
+
+           if (gamepad1.dpad_left) {
+               robot.strafeLeft(0.8);
+           } else {
+               robot.stopDrive();
+           }
+
+           if (gamepad1.dpad_right) {
+               robot.strafeRight(0.8);
+           } else {
+               robot.stopDrive();
+           }
+
+           if (gamepad1.x) {
+               robot.rotateLeft(0.8);
+           } else {
+               robot.stopDrive();
            }
 
            if (gamepad1.b) {
-               robot.backLeftDrive.setPower(0.2);
+               robot.rotateRight(0.8);
            } else {
-               robot.backLeftDrive.setPower(0);
-           }
-
-           if (gamepad1.a) {
-               robot.backRightDrive.setPower(0.2);
-           } else {
-               robot.backLeftDrive.setPower(0);
+               robot.stopDrive();
            }
 
         }

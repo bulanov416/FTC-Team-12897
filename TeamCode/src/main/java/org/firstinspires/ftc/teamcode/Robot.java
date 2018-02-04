@@ -45,10 +45,10 @@ public class Robot {
     public static double LEFT_WING_DOWN = 0.1; //was 0.3
     public static double RIGHT_WING_UP = 0.7; //was 0.9
     public static double RIGHT_WING_DOWN = 0.04; // was 0.58
+    public static double RELIC_BACK_EXTENDED = 0.95;
+    public static double RELIC_BACK_DOWN = 0.05;
     public static double RELIC_FRONT_DOWN = 0.1;
-    public static double RELIC_FRONT_UP = 0.9;
-    public static double RELIC_BACK_DOWN = 0.1;
-    public static double RELIC_BACK_UP = 0.9;
+    public static double RELIC_FRONT_UP = 0.6;
 
 
     public HardwareMap map;
@@ -98,15 +98,12 @@ public class Robot {
     }
 
     public void init() {
-        inRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-        /*rightWing.setPosition(RIGHT_WING_UP);
+        inRight.setDirection(DcMotor.Direction.REVERSE);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightWing.setPosition(RIGHT_WING_UP);
         leftWing.setPosition(LEFT_WING_UP);
         leftLift.setPosition(RAMP_LEFT_DOWN);
         rightLift.setPosition(RAMP_RIGHT_DOWN);
-        */
     }
 
     public void forward(double power){
@@ -158,17 +155,17 @@ public class Robot {
     }
 
     public void strafeLeft(double power){
-        frontLeftDrive.setPower(-power);
-        frontRightDrive.setPower(-power);
-        backLeftDrive.setPower(power);
-        backRightDrive.setPower(power);
-    }
-
-    public void strafeRight(double power){
         frontLeftDrive.setPower(power);
         frontRightDrive.setPower(power);
         backLeftDrive.setPower(-power);
         backRightDrive.setPower(-power);
+    }
+
+    public void strafeRight(double power){
+        frontLeftDrive.setPower(-power);
+        frontRightDrive.setPower(-power);
+        backLeftDrive.setPower(power);
+        backRightDrive.setPower(power);
     }
 
     public void stopDrive() {
@@ -190,7 +187,7 @@ public class Robot {
 
     public void between() throws InterruptedException {
         stopDrive();
-        Thread.sleep(500);
+        Thread.sleep(350);
     }
 
     public double getDR() {
