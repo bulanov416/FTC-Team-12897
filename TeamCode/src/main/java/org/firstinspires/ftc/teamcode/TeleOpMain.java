@@ -40,21 +40,42 @@ public class TeleOpMain extends LinearOpMode {
         this.robot = new Robot(hardwareMap);
 
         waitForStart();
-
+        robot.init();
         while (opModeIsActive()) {
-            /*robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
             robot.leftWing.setPosition(robot.LEFT_WING_UP);
-            straightPower = gamepad1.left_stick_y;
-            sidePower = gamepad1.left_stick_x;
-            */
-            float gamepad1LeftY = -gamepad1.left_stick_y;
-            float gamepad1RightY = gamepad1.right_stick_y;
-            robot.frontLeftDrive.setPower(gamepad1LeftY);
-            robot.frontRightDrive.setPower(gamepad1RightY);
-            robot.backLeftDrive.setPower(gamepad1LeftY);
-            robot.backRightDrive.setPower(gamepad1RightY);
 
-           if (gamepad1.right_bumper) {
+            float gamepad1LeftY = -gamepad1.left_stick_y;
+            float gamepad1LeftX = gamepad1.left_stick_x;
+            float gamepad1RightX = gamepad1.right_stick_x;
+
+            // holonomic formulas
+
+            float FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+            float FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+            float BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+            float BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+
+            // clip the right/left values so that the values never exceed +/- 1
+
+            FrontRight = scaleInput(FrontRight);
+            FrontLeft = scaleInput(FrontLeft);
+            BackRight = scaleInput(BackRight);
+            BackLeft = scaleInput(BackLeft);
+
+            FrontRight = Range.clip(FrontRight, -1, 1);
+            FrontLeft = Range.clip(FrontLeft, -1, 1);
+            BackLeft = Range.clip(BackLeft, -1, 1);
+            BackRight = Range.clip(BackRight, -1, 1);
+
+            // write the values to the motors
+            robot.frontRightDrive.setPower(FrontRight);
+            robot.frontLeftDrive.setPower(FrontLeft);
+            robot.backLeftDrive.setPower(BackLeft);
+            robot.backRightDrive.setPower(BackRight);
+
+
+            if (gamepad1.right_bumper) {
                 robot.inLeft.setPower(0.95);
                 robot.inRight.setPower(0.95);
             } else if (!gamepad1.right_bumper) {
@@ -111,7 +132,7 @@ public class TeleOpMain extends LinearOpMode {
             }
 
 
-           if (gamepad1.dpad_left) {
+            if (gamepad1.dpad_left) {
                 robot.strafeLeft(0.25);
             }
 
@@ -120,9 +141,9 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (gamepad1.a) {
-               robot.relic.setPower(1);
+                robot.relic.setPower(1);
             } else if (!gamepad1.a) {
-               robot.relic.setPower(0);
+                robot.relic.setPower(0);
             }
 
             if (gamepad1.y) {
@@ -161,5 +182,34 @@ public class TeleOpMain extends LinearOpMode {
             telemetry.update();
             */
         }
+    }
+
+    float scaleInput(float dVal) {
+        float[] scaleArray = {0.0f, 0.05f, 0.09f, 0.10f, 0.12f, 0.15f, 0.18f, 0.24f,
+                0.30f, 0.36f, 0.43f, 0.50f, 0.60f, 0.72f, 0.85f, 1.00f, 1.00f};
+
+        // get the corresponding index for the scaleInput array.
+        float index = (float) (dVal * 16.0);
+
+        // index should be positive.
+        if (index < 0f) {
+            index = -index;
+        }
+
+        // index cannot exceed size of array minus 1.
+        if (index > 16f) {
+            index = 16f;
+        }
+
+        // get value from the array.
+        float dScale = 0.0f;
+        if (dVal < 0f) {
+            dScale = -scaleArray[(int)index];
+        } else {
+            dScale = scaleArray[(int)index];
+        }
+
+        // return scaled value.
+        return dScale;
     }
 }

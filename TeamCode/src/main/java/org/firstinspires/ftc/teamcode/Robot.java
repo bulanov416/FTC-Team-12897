@@ -45,10 +45,10 @@ public class Robot {
     public static double LEFT_WING_DOWN = 0.1; //was 0.3
     public static double RIGHT_WING_UP = 0.7; //was 0.9
     public static double RIGHT_WING_DOWN = 0.04; // was 0.58
-    public static double RELIC_BACK_EXTENDED = 0.95;
+    public static double RELIC_BACK_EXTENDED = 0.99;
     public static double RELIC_BACK_DOWN = 0.05;
     public static double RELIC_FRONT_DOWN = 0.1;
-    public static double RELIC_FRONT_UP = 0.6;
+    public static double RELIC_FRONT_UP = 0.95;
 
 
     public HardwareMap map;
@@ -173,6 +173,8 @@ public class Robot {
         frontRightDrive.setPower(0);
         backLeftDrive.setPower(0);
         backRightDrive.setPower(0);
+        inLeft.setPower(0);
+        inRight.setPower(0);
     }
 
     public void intakeGlyph(double power) {

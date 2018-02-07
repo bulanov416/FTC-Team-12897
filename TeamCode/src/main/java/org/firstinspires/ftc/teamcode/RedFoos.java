@@ -48,11 +48,11 @@ public class RedFoos extends LinearOpMode {
         this.robot = new Robot(hardwareMap);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         gyro.initialize(parameters);
@@ -104,8 +104,7 @@ public class RedFoos extends LinearOpMode {
             robot.rotateLeft(0.23); // was  0.25
             sleep(250);
             robot.stopDrive();
-        }
-        else if (robot.jewelColorRight.blue() < robot.jewelColorRight.red()) {
+        } else if (robot.jewelColorRight.blue() < robot.jewelColorRight.red()) {
             robot.rotateLeft(0.23);
             sleep(250);
             robot.stopDrive();
@@ -147,8 +146,17 @@ public class RedFoos extends LinearOpMode {
             rotate(90, 0.25); // was 0.25
         }
         robot.between();
-        robot.backward(0.55); // was 0.4
+
+        //GRAB 2
+        robot.forward(0.6);
+        robot.intakeGlyph(0.9);
         sleep(2500);
+        robot.stopDrive();
+
+
+        robot.backward(0.8);
+        sleep(2800);
+        robot.stopDrive();
 
         //Drive Forwards
         robot.forward(0.4); // was 0.45
@@ -170,7 +178,6 @@ public class RedFoos extends LinearOpMode {
         robot.between();
         robot.backward(0.34);
         sleep(300);
-        robot.between();
         robot.between();
         //Strafe to Correct Column
         robot.strafeRight(0.14);// was 0.2
@@ -203,7 +210,7 @@ public class RedFoos extends LinearOpMode {
         //Dump Blocks
         //sleep(500);
         //robot.strafeRight(0.15);// was 0.13
-        //sleep(100);
+        //sleep(100);5
         robot.forward(0.25); // was 0.5
         sleep(500);
         robot.stopDrive();
@@ -217,44 +224,9 @@ public class RedFoos extends LinearOpMode {
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
 
         ///////////////////////////////////////////////////////
-    /*    //GRAB 2
-        robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
-        robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
-
-        robot.drive(0.6);
-        robot.intakeGlyph(0.9);
-        sleep(3000);
-        robot.stopDrive();
-
-
-        robot.drive(-0.6);
-        sleep(3500);
-        robot.stopDrive();
-
-        if (opModeIsActive()) {
-            if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) < 270) {
-                robot.rotateClockwise(270);
-            } else if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                robot.rotateCounterClockwise(270);
-            }
-        }
-
-        robot.drive(0.25);
-        sleep(100);
-        robot.stopDrive();
-        robot.stopDrive();
-        robot.drive(0.25);
-        sleep(500);
-        robot.stopDrive();
-        robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
-        robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
-        sleep(1000);
-        robot.drive(0.25);
-        sleep(500);
-        robot.stopDrive();*/
     }
 
-    public void rotateClockwise(double target, double power) {
+    /*public void rotateClockwise(double target, double power) {
         double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
         while (angle > (target + 2.5) || angle < (target -2.5) && opModeIsActive()) {
             angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
@@ -270,7 +242,7 @@ public class RedFoos extends LinearOpMode {
         }
         robot.stopDrive();
     }
-
+*/
     public void rotate(double target, double power) {
         double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         if (angle > target && opModeIsActive()) {
