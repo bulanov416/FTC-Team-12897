@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -12,43 +11,62 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Robot {
 
+    //Drive
     public DcMotor frontLeftDrive;
     public DcMotor backLeftDrive;
     public DcMotor frontRightDrive;
     public DcMotor backRightDrive;
 
+    //Intake
     public DcMotor inLeft;
     public DcMotor inRight;
+
+    //Relic
     public DcMotor relic;
+    public Servo frontRelic;
+    public Servo relicWinch;
+
+    //Lift
     public Servo leftLift;
     public Servo rightLift;
-    public Servo leftWing;
-    public Servo rightWing;
-    public Servo frontRelic;
-    public Servo backRelic;
+
+    //Jewel stuff
+    public Servo wing;
+    public Servo jewelServo;
+
+    //Column sensors
     public ColorSensor columnColorLeft;
     public ColorSensor columnColorRight;
     public DistanceSensor columnDistanceLeft;
     public DistanceSensor columnDistanceRight;
-    public ColorSensor jewelColorLeft;
-    public ColorSensor jewelColorRight;
+
+    public ColorSensor jewelColor;
+
     public NavxMicroNavigationSensor navxMicro;
     public ElapsedTime timer = new ElapsedTime();
     public char vuMarkData;
 
     //Constants
+
+    //ramp
     public static double RAMP_LEFT_UP = 0.04; // was 0.04
     public static double RAMP_LEFT_DOWN = 0.722; // was 0.722
     public static double RAMP_RIGHT_UP = 0.96; // was 0.88
     public static double RAMP_RIGHT_DOWN = 0.278; // was 0.18
-    public static double LEFT_WING_UP = 0.64; //was 0.6
-    public static double LEFT_WING_DOWN = 0.1; //was 0.3
-    public static double RIGHT_WING_UP = 0.7; //was 0.9
-    public static double RIGHT_WING_DOWN = 0.04; // was 0.58
-    public static double RELIC_BACK_EXTENDED = 0.99;
-    public static double RELIC_BACK_DOWN = 0.05;
-    public static double RELIC_FRONT_DOWN = 0.1;
-    public static double RELIC_FRONT_UP = 0.95;
+
+    //jewel things
+    public static double RIGHT_WING_UP = 0.89; //was 0.93. it worked fine, but the button head screws were getting stuck.
+    public static double RIGHT_WING_DOWN = 0.36; // was 0.58
+
+    public static double JEWEL_SERVO_AWAY = 0;
+    public static double JEWEL_SERVO_MIDDLE = 0.5;
+
+    //relic
+    public static double RELIC_WINCH_MIDDLE = 0.57;
+    public static double RELIC_WINCH_EXTENDED = 0.97;
+    public static double RELIC_WINCH_DOWN = 0.05;
+    public static double RELIC_FRONT_CLOSED = 0.05;//was  0.1
+    public static double RELIC_FRONT_OPEN = 0.9;
 
 
     public HardwareMap map;
@@ -62,11 +80,6 @@ public class Robot {
         backLeftDrive = hardwareMap.dcMotor.get("bl");
         backRightDrive = hardwareMap.dcMotor.get("br");
 
-
-        //Color Sensors
-        columnColorRight = hardwareMap.colorSensor.get("ccr");
-        columnColorLeft = hardwareMap.colorSensor.get("ccl");
-
         //Distance Sensors
         columnDistanceRight = hardwareMap.get(DistanceSensor.class, "ccr");
         columnDistanceLeft = hardwareMap.get(DistanceSensor.class, "ccl");
@@ -79,29 +92,21 @@ public class Robot {
         leftLift = hardwareMap.servo.get("llift");
         rightLift = hardwareMap.servo.get("rlift");
 
-        //Wings
-        leftWing = hardwareMap.servo.get("lwing");
-        rightWing = hardwareMap.servo.get("rwing");
+        //Jewel stuff
+        wing = hardwareMap.servo.get("wing");
+        jewelServo = hardwareMap.servo.get("jewelservo");
+        jewelColor = hardwareMap.colorSensor.get("jc");
 
         //Relic
         relic = hardwareMap.dcMotor.get("relic");
         frontRelic = hardwareMap.servo.get("frelic");
-        backRelic = hardwareMap.servo.get("brelic");
-
-        //jewel Sensors
-        jewelColorLeft = hardwareMap.colorSensor.get("jcl");
-        jewelColorRight = hardwareMap.colorSensor.get("jcr");
-
-        //IMU
-
-
+        relicWinch = hardwareMap.servo.get("brelic");
     }
 
     public void init() {
         inRight.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightWing.setPosition(RIGHT_WING_UP);
-        leftWing.setPosition(LEFT_WING_UP);
+        wing.setPosition(RIGHT_WING_UP);
         leftLift.setPosition(RAMP_LEFT_DOWN);
         rightLift.setPosition(RAMP_RIGHT_DOWN);
     }
@@ -173,6 +178,11 @@ public class Robot {
         frontRightDrive.setPower(0);
         backLeftDrive.setPower(0);
         backRightDrive.setPower(0);
+        //inLeft.setPower(0);
+        //inRight.setPower(0);
+    }
+
+    public void stopIntake() {
         inLeft.setPower(0);
         inRight.setPower(0);
     }

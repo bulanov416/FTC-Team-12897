@@ -20,11 +20,9 @@ public class Telemetry extends LinearOpMode {
             telemetry.addData("Column Left Blue: ", robot.columnColorLeft.blue());
             telemetry.addData("Column Right Red: ", robot.columnColorRight.red());
             telemetry.addData("Column Right Blue: ", robot.columnColorRight.blue());
-            telemetry.addData("Jewel Left Red: ", robot.jewelColorLeft.red());
-            telemetry.addData("Jewel Left Blue: ", robot.jewelColorLeft.blue());
-            telemetry.addData("Jewel Right Red: ", robot.jewelColorRight.red());
-            telemetry.addData("Jewel Right Blue: ", robot.jewelColorRight.blue());
+            telemetry.addData("Jewel Color: ", robot.jewelColor.red());
+            telemetry.addData("Jewel Color: ", robot.jewelColor.blue());
             telemetry.update();
-        }}
-
+        }
+    }
 }

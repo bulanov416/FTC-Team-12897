@@ -14,27 +14,27 @@ public class RedJewel extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         //Scan Jewel
-        if (robot.jewelColorRight.blue() > robot.jewelColorRight.red()) {
+        if (robot.jewelColor.blue() > robot.jewelColor.red()) {
             robot.rotateRight(0.23); // was 0.25
             sleep(250);
             robot.stopDrive();
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
             robot.rotateLeft(0.23); // was  0.25
             sleep(250);
             robot.stopDrive();
         }
-        else if (robot.jewelColorRight.blue() < robot.jewelColorRight.red()) {
+        else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
             robot.rotateLeft(0.23);
             sleep(250);
             robot.stopDrive();
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
             robot.rotateRight(0.23);
             sleep(250);
             robot.stopDrive();
         }
-        robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+        robot.wing.setPosition(robot.RIGHT_WING_UP);
         sleep(500);
     }
 }

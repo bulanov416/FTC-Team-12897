@@ -91,42 +91,42 @@ public class RedFoos extends LinearOpMode {
             robot.vuMarkData = 'R';
         }
         //Set Right Wing Down
-        robot.rightWing.setPosition(robot.RIGHT_WING_DOWN);
+        robot.wing.setPosition(robot.RIGHT_WING_DOWN);
         sleep(500);
 
         //Scan Jewel
-        if (robot.jewelColorRight.blue() > robot.jewelColorRight.red()) {
+        if (robot.jewelColor.blue() > robot.jewelColor.red()) {
             robot.rotateRight(0.23); // was 0.25
             sleep(250);
             robot.stopDrive();
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
             robot.rotateLeft(0.23); // was  0.25
             sleep(250);
             robot.stopDrive();
-        } else if (robot.jewelColorRight.blue() < robot.jewelColorRight.red()) {
+        } else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
             robot.rotateLeft(0.23);
             sleep(250);
             robot.stopDrive();
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
             robot.rotateRight(0.23);
             sleep(250);
             robot.stopDrive();
         }
-        robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+        robot.wing.setPosition(robot.RIGHT_WING_UP);
         sleep(500);
 
         // Drive forward for 2 Seconds
         robot.forward(0.56); // was 0.6
-        sleep(2000);
+        sleep(1100);//was 2000
         robot.stopDrive();
 
         //Drive Backwards to stone
         long startTime = System.currentTimeMillis();
         long timeElapsed = 0L;
-        robot.forward(-0.7); //was 0.4
-        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 4000) {
+        robot.forward(-0.4); //was 0.7
+        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 2500) {
             timeElapsed = (new Date()).getTime() - startTime;
             telemetry.addLine("Looking for Balancing Stone");
             telemetry.update();
@@ -134,33 +134,50 @@ public class RedFoos extends LinearOpMode {
         robot.stopDrive();
 
         //Drive Forward Half Second
-        robot.forward(0.6); //was 0.6
-        sleep(200);
+        if (opModeIsActive()) {
+            robot.forward(0.6); //was 0.6
+            sleep(200);
+        }
         robot.stopDrive();
 
+
         if (opModeIsActive()) {
-            rotate(90, 0.35); // was 0.45
+            rotate(90, 0.25); // was 0.45
         }
         robot.between();
         if (opModeIsActive()) {
-            rotate(90, 0.25); // was 0.25
+            rotate(90, 0.2); // was 0.25
         }
         robot.between();
 
-        //GRAB 2
-        robot.forward(0.6);
-        robot.intakeGlyph(0.9);
-        sleep(2500);
+        if (opModeIsActive()) {
+            robot.backward(0.38);
+            sleep(1350);
+        }
+        robot.between();
+
+        if (opModeIsActive()) {
+            rotate(90, 0.2);
+        }
+
+        if (opModeIsActive()) {
+            robot.strafeLeft(0.2);
+            sleep(550);
+        }
         robot.stopDrive();
 
+        if (opModeIsActive()) {
+            rotate(90, 0.2);
+        }
 
-        robot.backward(0.8);
-        sleep(2800);
-        robot.stopDrive();
+/*        robot.forward(0.36);
+        sleep(120);
+        robot.between();
+*/
 
-        //Drive Forwards
+        /*//Drive Forwards
         robot.forward(0.4); // was 0.45
-        sleep(300);//was 100
+        sleep(500);//was 100
         robot.stopDrive();
 
         if (opModeIsActive()) {
@@ -179,8 +196,9 @@ public class RedFoos extends LinearOpMode {
         robot.backward(0.34);
         sleep(300);
         robot.between();
+        */
         //Strafe to Correct Column
-        robot.strafeRight(0.14);// was 0.2
+        robot.strafeRight(0.18);// was 0.14
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
             telemetry.addLine("Looking for Right");
             telemetry.update();

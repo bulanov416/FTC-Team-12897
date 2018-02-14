@@ -1,25 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.microsoft.MicrosoftGamepadXbox360;
-import com.qualcomm.hardware.motors.NeveRest40Gearmotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
-import com.sun.tools.javac.code.Symbol;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
+import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 
 @TeleOp(name="TeleOp")
@@ -42,8 +27,7 @@ public class TeleOpMain extends LinearOpMode {
         waitForStart();
         robot.init();
         while (opModeIsActive()) {
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
-            robot.leftWing.setPosition(robot.LEFT_WING_UP);
+         //   robot.rightWing.setPosition(robot.RIGHT_WING_UP);
 
             float gamepad1LeftY = -gamepad1.left_stick_y;
             float gamepad1LeftX = gamepad1.left_stick_x;
@@ -108,6 +92,21 @@ public class TeleOpMain extends LinearOpMode {
                 robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
             }
 
+            if (gamepad2.dpad_down) {
+                robot.wing.setPosition(robot.RIGHT_WING_DOWN);
+            }
+
+            if (gamepad2.dpad_up) {
+                robot.wing.setPosition(robot.RIGHT_WING_UP);
+            }
+
+            if (gamepad2.dpad_left) {
+                robot.jewelServo.setPosition(robot.JEWEL_SERVO_AWAY);
+            }
+            if (gamepad2.dpad_right) {
+                robot.jewelServo.setPosition(robot.JEWEL_SERVO_MIDDLE);
+            }
+
             if (gamepad2.right_bumper) {
                 robot.inLeft.setPower(0.95);
                 robot.inRight.setPower(-0.95);
@@ -118,17 +117,20 @@ public class TeleOpMain extends LinearOpMode {
                 robot.inRight.setPower(0.95);
             }
 
-            if (gamepad2.x) {
-                robot.backRelic.setPosition(robot.RELIC_BACK_DOWN);
-            }
-            if (gamepad2.b) {
-                robot.backRelic.setPosition(robot.RELIC_BACK_EXTENDED);
-            }
             if (gamepad2.a) {
-                robot.frontRelic.setPosition(robot.RELIC_FRONT_UP);
+                robot.relicWinch.setPosition(robot.RELIC_WINCH_MIDDLE);
             }
             if (gamepad2.y) {
-                robot.frontRelic.setPosition(robot.RELIC_FRONT_DOWN);
+                robot.relicWinch.setPosition(robot.RELIC_WINCH_EXTENDED);
+            }
+            if (gamepad2.right_bumper) {
+                robot.relicWinch.setPosition(robot.RELIC_WINCH_DOWN);
+            }
+            if (gamepad2.x) {
+                robot.frontRelic.setPosition(robot.RELIC_FRONT_OPEN);
+            }
+            if (gamepad2.b) {
+                robot.frontRelic.setPosition(robot.RELIC_FRONT_CLOSED);
             }
 
 
@@ -140,7 +142,7 @@ public class TeleOpMain extends LinearOpMode {
                 robot.strafeRight(0.25);
             }
 
-            if (gamepad1.a) {
+            if (gamepad1.x) {
                 robot.relic.setPower(1);
             } else if (!gamepad1.a) {
                 robot.relic.setPower(0);

@@ -93,31 +93,31 @@ public class BlueFoos extends LinearOpMode {
             robot.vuMarkData = 'R';
         }
         //Set Right Wing Down
-        robot.rightWing.setPosition(robot.RIGHT_WING_DOWN);
+        robot.wing.setPosition(robot.RIGHT_WING_DOWN);
         sleep(500);
 
         //Scan Jewel
-        if (robot.jewelColorRight.blue() > robot.jewelColorRight.red()) {
+        if (robot.jewelColor.blue() > robot.jewelColor.red()) {
             robot.rotateLeft(0.23); // was 0.25
             sleep(250);
             robot.stopDrive();
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
             robot.rotateRight(0.23); // was  0.25
             sleep(250);
             robot.stopDrive();
         }
-        else if (robot.jewelColorRight.blue() < robot.jewelColorRight.red()) {
+        else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
             robot.rotateRight(0.23);
             sleep(250);
             robot.stopDrive();
-            robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+            robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
             robot.rotateLeft(0.23);
             sleep(250);
             robot.stopDrive();
         }
-        robot.rightWing.setPosition(robot.RIGHT_WING_UP);
+        robot.wing.setPosition(robot.RIGHT_WING_UP);
         sleep(500);
 
         // Drive forward for 2 Seconds
