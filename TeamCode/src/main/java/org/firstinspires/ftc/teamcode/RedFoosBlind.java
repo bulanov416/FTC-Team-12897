@@ -22,8 +22,7 @@ public class RedFoosBlind extends LinearOpMode {
 
     // Creates a variable of type robot, titled robot.
     public Robot robot;
-
-    BNO055IMU gyro;
+    public BNO055IMU gyro;
 
     //Creates Vuforia variables
     public static final String TAG = "Vuforia VuMark Sample";
@@ -56,10 +55,8 @@ public class RedFoosBlind extends LinearOpMode {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         gyro.initialize(parameters);
-        robot.init();
-
-        //Starts Robot
         waitForStart();
+        
         sleep(500);
 
         //Turns on the Phone Flash Light
@@ -153,6 +150,14 @@ public class RedFoosBlind extends LinearOpMode {
         sleep(1900);//was 2000
         robot.stopDrive();
 
+        if (opModeIsActive()) {
+            rotate(90, 0.25); // was 0.45
+        }
+        robot.between();
+        if (opModeIsActive()) {
+            rotate(90, 0.2); // was 0.25
+        }
+
         robot.backward(0.6);
         sleep(2400);
         robot.stopDrive();
@@ -172,29 +177,6 @@ public class RedFoosBlind extends LinearOpMode {
         if (opModeIsActive()) {
             rotate(90,0.2);
         }
-
-        /*//Drive Forwards
-        robot.forward(0.4); // was 0.45
-        sleep(500);//was 100
-        robot.stopDrive();
-
-        if (opModeIsActive()) {
-            rotate(90, 0.30); // was 0.25
-        }
-        robot.between();
-
-        robot.strafeLeft(0.17);
-        sleep(660);
-        robot.between();
-
-        if (opModeIsActive()) {
-            rotate(90, 0.22); // was 0.25
-        }
-        robot.between();
-        robot.backward(0.34);
-        sleep(300);
-        robot.between();
-        */
         //Strafe to Correct Column
         robot.strafeRight(0.18);// was 0.14
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
@@ -223,42 +205,67 @@ public class RedFoosBlind extends LinearOpMode {
         }
         robot.stopDrive();
 
-        //Dump Blocks
-        //sleep(500);
-        //robot.strafeRight(0.15);// was 0.13
-        //sleep(100);5
         robot.forward(0.25); // was 0.5
         sleep(500);
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
-        sleep(2000);
+        sleep(1000);
         robot.forward(0.5);//0.5
-        sleep(1250);
+        sleep(250);
+        robot.stopDrive();
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
-
         ///////////////////////////////////////////////////////
+        //GRAB 2
+        robot.forward(0.6);
+        robot.intakeGlyph(0.9);
+        sleep(1900);//was 2000
+        robot.stopDrive();
+
+        if (opModeIsActive()) {
+            rotate(90, 0.25); // was 0.45
+        }
+        robot.between();
+        if (opModeIsActive()) {
+            rotate(90, 0.2); // was 0.25
+        }
+
+        robot.backward(0.6);
+        sleep(2400);
+        robot.stopDrive();
+
+        if (opModeIsActive()) {
+            rotate(90,0.2);
+        }
+
+        robot.strafeLeft(0.2);
+        sleep(550);
+        robot.stopDrive();
+
+/*        robot.forward(0.36);
+        sleep(120);
+        robot.between();
+*/
+        if (opModeIsActive()) {
+            rotate(90,0.2);
+        }
+        // DUMP BLOCKS 3 & 4
+        robot.forward(0.25); // was 0.5
+        sleep(500);
+        robot.stopDrive();
+        robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
+        robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
+        sleep(1000);
+        robot.forward(0.5);//0.5
+        sleep(250);
+        robot.stopDrive();
+        robot.stopDrive();
+        robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
+        robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
     }
 
-    /*public void rotateClockwise(double target, double power) {
-        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
-        while (angle > (target + 2.5) || angle < (target -2.5) && opModeIsActive()) {
-            angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
-            robot.rotateRight(power);
-        }
-        robot.stopDrive();
-    }
-    public void rotateCounterClockwise(double target, double power) {
-        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
-        while (angle > (target + 2) || angle < (target -2) && opModeIsActive()) {
-            angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
-            robot.rotateLeft(power);
-        }
-        robot.stopDrive();
-    }
-*/
     public void rotate(double target, double power) {
         double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         if (angle > target && opModeIsActive()) {

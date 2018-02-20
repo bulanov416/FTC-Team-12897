@@ -2,18 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="TeleOpTest")
 public class TeleOpTest extends LinearOpMode {
-
-    float frontLeft = 0;
-    float frontRight = 0;
-    float backLeft = 0;
-    float backRight = 0;
-    float straightPower = 0;
-    float sidePower = 0;
-    double power = 0;
 
     public Robot robot;
 

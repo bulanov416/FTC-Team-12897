@@ -4,55 +4,35 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.abs;
-
 @TeleOp(name="TeleOp")
 public class TeleOpMain extends LinearOpMode {
 
-    float frontLeft = 0;
-    float frontRight = 0;
-    float backLeft = 0;
-    float backRight = 0;
-    float straightPower = 0;
-    float sidePower = 0;
-    double power = 0;
-
     public Robot robot;
-
     public void runOpMode() throws InterruptedException {
-
         this.robot = new Robot(hardwareMap);
-
-        waitForStart();
         robot.init();
+        waitForStart();
         while (opModeIsActive()) {
-         //   robot.rightWing.setPosition(robot.RIGHT_WING_UP);
 
             float gamepad1LeftY = -gamepad1.left_stick_y;
             float gamepad1LeftX = gamepad1.left_stick_x;
             float gamepad1RightX = gamepad1.right_stick_x;
-
-            // holonomic formulas
 
             float FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
             float FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
             float BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
             float BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
-            // clip the right/left values so that the values never exceed +/- 1
-
-            FrontRight = scaleInput(FrontRight);
-            FrontLeft = scaleInput(FrontLeft);
-            BackRight = scaleInput(BackRight);
-            BackLeft = scaleInput(BackLeft);
+            FrontRight = -scaleInput(FrontRight);
+            FrontLeft = -scaleInput(FrontLeft);
+            BackRight = -scaleInput(BackRight);
+            BackLeft = -scaleInput(BackLeft);
 
             FrontRight = Range.clip(FrontRight, -1, 1);
             FrontLeft = Range.clip(FrontLeft, -1, 1);
             BackLeft = Range.clip(BackLeft, -1, 1);
             BackRight = Range.clip(BackRight, -1, 1);
 
-            // write the values to the motors
             robot.frontRightDrive.setPower(FrontRight);
             robot.frontLeftDrive.setPower(FrontLeft);
             robot.backLeftDrive.setPower(BackLeft);
@@ -117,19 +97,19 @@ public class TeleOpMain extends LinearOpMode {
                 robot.inRight.setPower(0.95);
             }
 
-            if (gamepad2.a) {
+            if (gamepad1.a) {
                 robot.relicWinch.setPosition(robot.RELIC_WINCH_MIDDLE);
             }
-            if (gamepad2.y) {
+            if (gamepad1.y) {
                 robot.relicWinch.setPosition(robot.RELIC_WINCH_EXTENDED);
             }
-            if (gamepad2.right_bumper) {
+            if (gamepad1.right_bumper) {
                 robot.relicWinch.setPosition(robot.RELIC_WINCH_DOWN);
             }
-            if (gamepad2.x) {
+            if (gamepad1.x) {
                 robot.frontRelic.setPosition(robot.RELIC_FRONT_OPEN);
             }
-            if (gamepad2.b) {
+            if (gamepad1.b) {
                 robot.frontRelic.setPosition(robot.RELIC_FRONT_CLOSED);
             }
 
@@ -142,15 +122,15 @@ public class TeleOpMain extends LinearOpMode {
                 robot.strafeRight(0.25);
             }
 
-            if (gamepad1.x) {
+            if (gamepad2.x) {
                 robot.relic.setPower(1);
-            } else if (!gamepad1.a) {
+            } else if (!gamepad2.x) {
                 robot.relic.setPower(0);
             }
 
-            if (gamepad1.y) {
+            if (gamepad2.y) {
                 robot.relic.setPower(-1);
-            } else if (!gamepad1.y) {
+            } else if (!gamepad2.y) {
                 robot.relic.setPower(0);
             }
            /* //float gamepad1LeftY = -gamepad1.left_stick_y;

@@ -105,72 +105,52 @@ public class Robot {
 
     public void init() {
         inRight.setDirection(DcMotor.Direction.REVERSE);
-        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
         wing.setPosition(RIGHT_WING_UP);
         leftLift.setPosition(RAMP_LEFT_DOWN);
         rightLift.setPosition(RAMP_RIGHT_DOWN);
     }
 
     public void forward(double power){
-        frontLeftDrive.setPower(-power);
-        frontRightDrive.setPower(power);
-        backLeftDrive.setPower(-power);
-        backRightDrive.setPower(power);
+        frontLeftDrive.setPower(power);
+        frontRightDrive.setPower(-power);
+        backLeftDrive.setPower(power);
+        backRightDrive.setPower(-power);
+
     }
 
     public void backward(double power) {
-        frontLeftDrive.setPower(power);
-        frontRightDrive.setPower(-power);
-        backLeftDrive.setPower(power);
-        backRightDrive.setPower(-power);
-    }
-
-    public void leftOnly (double power) {
-        frontLeftDrive.setPower(power);
-        backLeftDrive.setPower(power);
-    }
-
-    public void rightOnly (double power) {
+        frontLeftDrive.setPower(-power);
         frontRightDrive.setPower(power);
-        backRightDrive.setPower(power);
-    }
-
-    public void forwardLeft(double power) {
-        frontLeftDrive.setPower(power);
-        backRightDrive.setPower(power);
-    }
-
-    public void forwardRight(double power) {
-        frontRightDrive.setPower(-power);
         backLeftDrive.setPower(-power);
+        backRightDrive.setPower(power);
     }
 
     public void rotateLeft(double power){
-        frontLeftDrive.setPower(power);
-        frontRightDrive.setPower(power);
-        backLeftDrive.setPower(power);
-        backRightDrive.setPower(power);
+        frontLeftDrive.setPower(-power);
+        frontRightDrive.setPower(-power);
+        backLeftDrive.setPower(-power);
+        backRightDrive.setPower(-power);
     }
 
     public void rotateRight(double power){
-        frontLeftDrive.setPower(-power);
-        frontRightDrive.setPower(-power);
-        backLeftDrive.setPower(-power);
-        backRightDrive.setPower(-power);
+        frontLeftDrive.setPower(power);
+        frontRightDrive.setPower(power);
+        backLeftDrive.setPower(power);
+        backRightDrive.setPower(power);
     }
 
     public void strafeLeft(double power){
-        frontLeftDrive.setPower(power);
-        frontRightDrive.setPower(power);
-        backLeftDrive.setPower(-power);
-        backRightDrive.setPower(-power);
-    }
-
-    public void strafeRight(double power){
         frontLeftDrive.setPower(-power);
         frontRightDrive.setPower(-power);
         backLeftDrive.setPower(power);
         backRightDrive.setPower(power);
+    }
+
+    public void strafeRight(double power){
+        frontLeftDrive.setPower(power);
+        frontRightDrive.setPower(power);
+        backLeftDrive.setPower(-power);
+        backRightDrive.setPower(-power);
     }
 
     public void stopDrive() {
@@ -178,8 +158,6 @@ public class Robot {
         frontRightDrive.setPower(0);
         backLeftDrive.setPower(0);
         backRightDrive.setPower(0);
-        //inLeft.setPower(0);
-        //inRight.setPower(0);
     }
 
     public void stopIntake() {
@@ -211,5 +189,4 @@ public class Robot {
         double distanceLeft = columnDistanceLeft.getDistance(DistanceUnit.CM);
         return distanceLeft;
     }
-
 }
