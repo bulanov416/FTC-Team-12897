@@ -1,11 +1,12 @@
+// Get the FIRST Team Code Package
 package org.firstinspires.ftc.teamcode;
 
+//Import all necessary classes
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.CameraDevice;
-
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -14,14 +15,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
 import java.util.Date;
 
-/**
- * Created by Alex Bulanov on 1/28/2018.
- */
 @Autonomous(name="BlueFoos")
 public class BlueFoos extends LinearOpMode {
+
     // Creates a variable of type robot, titled robot.
     public Robot robot;
 
@@ -50,11 +48,11 @@ public class BlueFoos extends LinearOpMode {
         this.robot = new Robot(hardwareMap);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         gyro.initialize(parameters);
@@ -97,23 +95,22 @@ public class BlueFoos extends LinearOpMode {
         sleep(500);
 
         //Scan Jewel
-        if (robot.jewelColor.blue() > robot.jewelColor.red()) {
-            robot.rotateLeft(0.23); // was 0.25
+        if (robot.jewelColor.blue() < robot.jewelColor.red()) {
+            robot.rotateRight(0.23); // was 0.25
             sleep(250);
             robot.stopDrive();
             robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(250);
-            robot.rotateRight(0.23); // was  0.25
+            robot.rotateLeft(0.23); // was  0.25
             sleep(250);
             robot.stopDrive();
-        }
-        else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
-            robot.rotateRight(0.23);
-            sleep(250);
-            robot.stopDrive();
-            robot.wing.setPosition(robot.RIGHT_WING_UP);
-            sleep(250);
+        } else if (robot.jewelColor.blue() > robot.jewelColor.red()) {
             robot.rotateLeft(0.23);
+            sleep(250);
+            robot.stopDrive();
+            robot.wing.setPosition(robot.RIGHT_WING_UP);
+            sleep(250);
+            robot.rotateRight(0.23);
             sleep(250);
             robot.stopDrive();
         }
@@ -121,11 +118,15 @@ public class BlueFoos extends LinearOpMode {
         sleep(500);
 
         // Drive forward for 2 Seconds
+        robot.backward(0.56); // was 0.6
+        sleep(1100);//was 2000
+        robot.stopDrive();
+
         //Drive Backwards to stone
         long startTime = System.currentTimeMillis();
         long timeElapsed = 0L;
-        robot.forward(-0.43); //was 0.4
-        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 5500) {
+        robot.forward(-0.4); //was 0.7
+        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 2500) {
             timeElapsed = (new Date()).getTime() - startTime;
             telemetry.addLine("Looking for Balancing Stone");
             telemetry.update();
@@ -133,124 +134,121 @@ public class BlueFoos extends LinearOpMode {
         robot.stopDrive();
 
         //Drive Forward Half Second
-        robot.backward(0.6); //was 0.6
-        sleep(200);
+        if (opModeIsActive()) {
+            robot.forward(0.6); //was 0.6
+            sleep(200);
+        }
         robot.stopDrive();
 
+
         if (opModeIsActive()) {
-            rotateCounterClockwise(270, 0.33); // was 0.45
+            rotate(90, 0.25); // was 0.45
         }
         robot.between();
         if (opModeIsActive()) {
-            rotateClockwise(270, 0.25); // was 0.25
+            rotate(90, 0.2); // was 0.25
         }
         robot.between();
-        robot.backward(0.55); // was 0.4
-        sleep(2500);
 
-        //Drive Forwards
-        robot.forward(0.39); // was 0.45
-        sleep(300);//was 100
+        if (opModeIsActive()) {
+            robot.backward(0.38);
+            sleep(1350);
+        }
+        robot.between();
+
+        if (opModeIsActive()) {
+            rotate(90, 0.2);
+        }
+
+        if (opModeIsActive()) {
+            robot.strafeLeft(0.2);
+            sleep(550);
+        }
         robot.stopDrive();
 
         if (opModeIsActive()) {
-            rotateClockwise(270, 0.3); // was 0.25
+            rotate(90, 0.2);
         }
 
-        robot.strafeRight(0.17);
+/*        robot.forward(0.36);
+        sleep(120);
+        robot.between();
+*/
+
+        /*//Drive Forwards
+        robot.forward(0.4); // was 0.45
+        sleep(500);//was 100
+        robot.stopDrive();
+
+        if (opModeIsActive()) {
+            rotate(90, 0.30); // was 0.25
+        }
+        robot.between();
+
+        robot.strafeLeft(0.17);
         sleep(660);
         robot.between();
 
         if (opModeIsActive()) {
-            rotateClockwise(270, 0.3); // was 0.25
+            rotate(90, 0.22); // was 0.25
         }
         robot.between();
-
-        robot.forward(0.4);
+        robot.backward(0.34);
         sleep(300);
         robot.between();
+        */
         //Strafe to Correct Column
-        robot.strafeLeft(0.14);// was 0.2
+        robot.strafeRight(0.18);// was 0.14
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
             telemetry.addLine("Looking for Right");
             telemetry.update();
         }
         if (robot.vuMarkData == 'C' || robot.vuMarkData == 'L') {
-            sleep(400);
+            sleep(550);
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
                 telemetry.addLine("Looking for Center");
                 telemetry.update();
             }
         }
         if (robot.vuMarkData == 'L') {
-            sleep(400);
+            sleep(550);
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
                 telemetry.addLine("Looking for Left");
                 telemetry.update();
             }
         }
-
-        robot.strafeRight(0.14);//  was 0.1
+        robot.between();
+        robot.strafeLeft(0.12);//  was 0.1
         while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
-            telemetry.addLine("Looking for Left");
+            telemetry.addLine("Correction");
             telemetry.update();
         }
         robot.stopDrive();
 
         //Dump Blocks
-        sleep(500);
-        robot.strafeLeft(0.12);// was 0.13
-        sleep(100);
+        //sleep(500);
+        //robot.strafeRight(0.15);// was 0.13
+        //sleep(100);5
         robot.forward(0.25); // was 0.5
         sleep(500);
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
         sleep(2000);
-        robot.forward(0.5);//0.5
-        sleep(1250);
+        robot.forward(0.3);
+        sleep(400);
+        robot.backward(0.35);
+        sleep(500);
+        robot.forward(0.4);//0.5
+        sleep(600);
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
 
         ///////////////////////////////////////////////////////
-    /*    //GRAB 2
-        robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
-        robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
-
-        robot.drive(0.6);
-        robot.intakeGlyph(0.9);
-        sleep(3000);
-        robot.stopDrive();
-
-
-        robot.drive(-0.6);
-        sleep(3500);
-        robot.stopDrive();
-
-        if (opModeIsActive()) {
-            if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) < 270) {
-                robot.rotateClockwise(270);
-            } else if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
-                robot.rotateCounterClockwise(270);
-            }
-        }
-
-        robot.drive(0.25);
-        sleep(100);
-        robot.stopDrive();
-        robot.stopDrive();
-        robot.drive(0.25);
-        sleep(500);
-        robot.stopDrive();
-        robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
-        robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
-        sleep(1000);
-        robot.drive(0.25);
-        sleep(500);
-        robot.stopDrive();*/
     }
-    public void rotateClockwise(double target, double power) {
+
+    /*public void rotateClockwise(double target, double power) {
         double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
         while (angle > (target + 2.5) || angle < (target -2.5) && opModeIsActive()) {
             angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
@@ -265,5 +263,22 @@ public class BlueFoos extends LinearOpMode {
             robot.rotateLeft(power);
         }
         robot.stopDrive();
+    }
+*/
+    public void rotate(double target, double power) {
+        double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        if (angle > target && opModeIsActive()) {
+            while (angle > target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                robot.rotateRight(power);
+            }
+            robot.stopDrive();
+        } else if (angle < target && opModeIsActive()) {
+            while (angle < target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                robot.rotateLeft(power);
+            }
+            robot.stopDrive();
+        }
     }
 }

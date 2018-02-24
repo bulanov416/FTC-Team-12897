@@ -48,10 +48,48 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             if (gamepad1.dpad_left) {
-                robot.strafeLeft(0.2);
+                robot.strafeLeft(0.3);
             }
             if (gamepad1.dpad_right) {
-                robot.strafeRight(0.2);
+                robot.strafeRight(0.3);
+            }
+
+            if (gamepad2.dpad_left) {
+                robot.backward(0.4);
+                sleep(500);
+                robot.stopDrive();
+                robot.strafeLeft(0.18);// was 0.14
+                while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
+                    telemetry.addLine("Looking for Ri");
+                    telemetry.update();
+                }
+                robot.stopDrive();
+                robot.forward(0.25); // was 0.5
+                sleep(500);
+                robot.stopDrive();
+                robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
+                robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
+                robot.forward(0.5);//0.5
+                sleep(600);
+            }
+
+            if (gamepad2.dpad_right) {
+                robot.backward(0.4);
+                sleep(500);
+                robot.stopDrive();
+                robot.strafeRight(0.18);// was 0.14
+                while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
+                    telemetry.addLine("Looking for Right");
+                    telemetry.update();
+                }
+                robot.stopDrive();
+                robot.forward(0.25); // was 0.5
+                sleep(500);
+                robot.stopDrive();
+                robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
+                robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
+                robot.forward(0.5);//0.5
+                sleep(600);
             }
 
             if (gamepad1.left_bumper) {
@@ -80,13 +118,6 @@ public class TeleOpMain extends LinearOpMode {
                 robot.wing.setPosition(robot.RIGHT_WING_UP);
             }
 
-            if (gamepad2.dpad_left) {
-                robot.jewelServo.setPosition(robot.JEWEL_SERVO_AWAY);
-            }
-            if (gamepad2.dpad_right) {
-                robot.jewelServo.setPosition(robot.JEWEL_SERVO_MIDDLE);
-            }
-
             if (gamepad2.right_bumper) {
                 robot.inLeft.setPower(0.95);
                 robot.inRight.setPower(-0.95);
@@ -97,7 +128,7 @@ public class TeleOpMain extends LinearOpMode {
                 robot.inRight.setPower(0.95);
             }
 
-            if (gamepad1.a) {
+            if (gamepad2.a) {
                 robot.relicWinch.setPosition(robot.RELIC_WINCH_MIDDLE);
             }
             if (gamepad1.y) {

@@ -17,11 +17,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Date;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by Alex Bulanov on 1/28/2018.
  */
-@Autonomous(name="RedBBallFoos")
-public class RedBBallFoos extends LinearOpMode {
+@Autonomous(name="RedBBall")
+public class RedBBall extends LinearOpMode {
 
         // Creates a variable of type robot, titled robot.
         public Robot robot;
@@ -98,35 +100,47 @@ public class RedBBallFoos extends LinearOpMode {
             sleep(500);
 
             //Scan Jewel
-            if (robot.jewelColor.blue() < robot.jewelColor.red()) {
-                robot.rotateLeft(0.23); // was 0.25
+            if (robot.jewelColor.blue() > robot.jewelColor.red()) {
+                robot.rotateRight(0.23); // was 0.25
                 sleep(250);
                 robot.stopDrive();
                 robot.wing.setPosition(robot.RIGHT_WING_UP);
                 sleep(250);
-                robot.rotateRight(0.23); // was  0.25
+                robot.rotateLeft(0.23); // was  0.25
                 sleep(250);
                 robot.stopDrive();
             }
-            else if (robot.jewelColor.blue() > robot.jewelColor.red()) {
-                robot.rotateRight(0.23);
+            else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
+                robot.rotateLeft(0.23);
                 sleep(250);
                 robot.stopDrive();
                 robot.wing.setPosition(robot.RIGHT_WING_UP);
                 sleep(250);
-                robot.rotateLeft(0.23);
+                robot.rotateRight(0.23);
                 sleep(250);
                 robot.stopDrive();
             }
             robot.wing.setPosition(robot.RIGHT_WING_UP);
             sleep(500);
 
+
+            robot.forward(0.5);
+            sleep(850);
+
+            robot.strafeRight(0.2);
+            sleep(600);
+
+            robot.forward(0.5);
+            sleep(1000);
+
+            /*robot.forward(0.56);
+            sleep(980);
             // Drive forward for 2 Seconds
             //Drive Backwards to stone
             long startTime = System.currentTimeMillis();
             long timeElapsed = 0L;
-            robot.forward(-0.43); //was 0.4
-            while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 5500) {
+            robot.backward(0.43); //was 0.4
+            while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 5000) {
                 timeElapsed = (new Date()).getTime() - startTime;
                 telemetry.addLine("Looking for Balancing Stone");
                 telemetry.update();
@@ -134,40 +148,37 @@ public class RedBBallFoos extends LinearOpMode {
             robot.stopDrive();
 
             //Drive Forward Half Second
-            robot.backward(0.6); //was 0.6
+            robot.forward(0.6); //was 0.6
             sleep(200);
             robot.stopDrive();
 
             if (opModeIsActive()) {
-                rotateCounterClockwise(270, 0.33); // was 0.45
+                rotate180(179, 0.2); // was 0.45
+                //pTurn(179, 0.4);
             }
             robot.between();
-            if (opModeIsActive()) {
-                rotateClockwise(270, 0.25); // was 0.25
-            }
-            robot.between();
+
+            robot.strafeRight(0.2);
+            sleep(1000);
+
             robot.backward(0.55); // was 0.4
-            sleep(2500);
+            sleep(1500);
+
+            if (opModeIsActive()) {
+                rotate(179,0.2);
+                //pTurn(179, 0.3);
+            }
 
             //Drive Forwards
-            robot.forward(0.39); // was 0.45
-            sleep(300);//was 100
+            robot.forward(0.3); // was 0.45
+            sleep(90);//was 100
             robot.stopDrive();
 
-            if (opModeIsActive()) {
-                rotateClockwise(270, 0.3); // was 0.25
-            }
-
-            robot.strafeRight(0.17);
-            sleep(660);
-            robot.between();
-
-            if (opModeIsActive()) {
-                rotateClockwise(270, 0.3); // was 0.25
-            }
+            robot.strafeLeft(0.2);
+            sleep(950);
             robot.between();
             //Strafe to Correct Column
-            robot.strafeLeft(0.14);// was 0.2
+            robot.strafeRight(0.18);// was 0.2
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
                 telemetry.addLine("Looking for Right");
                 telemetry.update();
@@ -195,17 +206,18 @@ public class RedBBallFoos extends LinearOpMode {
             robot.stopDrive();
 
             //Dump Blocks
-            sleep(500);
-            robot.strafeLeft(0.12);// was 0.13
-            sleep(100);
             robot.forward(0.25); // was 0.5
             sleep(500);
             robot.stopDrive();
             robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
             robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
             sleep(2000);
-            robot.forward(0.5);//0.5
-            sleep(1250);
+            robot.forward(0.3);
+            sleep(400);
+            robot.backward(0.35);
+            sleep(500);
+            robot.forward(0.4);//0.5
+            sleep(600);
             robot.stopDrive();
             robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
             robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
@@ -246,21 +258,49 @@ public class RedBBallFoos extends LinearOpMode {
         robot.drive(0.25);
         sleep(500);
         robot.stopDrive();*/
+
         }
-        public void rotateClockwise(double target, double power) {
-            double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
-            while (angle > (target + 2.5) || angle < (target -2.5) && opModeIsActive()) {
-                angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
+    public void rotate(double target, double power) {
+        double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        if (angle > target && opModeIsActive()) {
+            while (angle > target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
                 robot.rotateRight(power);
             }
             robot.stopDrive();
-        }
-        public void rotateCounterClockwise(double target, double power) {
-            double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
-            while (angle > (target + 2) || angle < (target -2) && opModeIsActive()) {
-                angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180;
+        } else if (angle < target && opModeIsActive()) {
+            while (angle < target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
                 robot.rotateLeft(power);
             }
             robot.stopDrive();
         }
+    }
+    public void rotate180(double target, double power) {
+        double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        if (angle < 0 && opModeIsActive()) {
+            while (angle < target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                robot.rotateRight(power);
+            }
+            robot.stopDrive();
+        }
+        if (angle > 0 && opModeIsActive()) {
+            while  (angle < target && opModeIsActive()) {
+                angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                robot.rotateLeft(power);
+            }
+        }
+    }
+
+    public void pTurn(double target, double kP) {
+        double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        double error = angle - target;
+        while (abs(error) > 0.5 && opModeIsActive()) {
+            robot.rotateLeft(error * kP);
+            angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+            error = angle - target;
+        }
+    }
+
 }

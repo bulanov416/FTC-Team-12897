@@ -55,6 +55,7 @@ public class RedFoosBlind extends LinearOpMode {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         gyro.initialize(parameters);
+        robot.init();
         waitForStart();
         
         sleep(500);
@@ -260,7 +261,6 @@ public class RedFoosBlind extends LinearOpMode {
         sleep(1000);
         robot.forward(0.5);//0.5
         sleep(250);
-        robot.stopDrive();
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);

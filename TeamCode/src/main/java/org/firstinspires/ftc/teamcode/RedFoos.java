@@ -235,8 +235,12 @@ public class RedFoos extends LinearOpMode {
         robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
         sleep(2000);
-        robot.forward(0.5);//0.5
-        sleep(1250);
+        robot.forward(0.3);
+        sleep(400);
+        robot.backward(0.35);
+        sleep(500);
+        robot.forward(0.4);//0.5
+        sleep(600);
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);

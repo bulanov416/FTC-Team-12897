@@ -36,6 +36,15 @@ public class RedJewel extends LinearOpMode {
         }
         robot.wing.setPosition(robot.RIGHT_WING_UP);
         sleep(500);
+
+        robot.forward(0.5);
+        sleep(850);
+
+        robot.strafeLeft(0.2);
+        sleep(700);
+
+        robot.forward(0.5);
+        sleep(1000);
     }
 }
 

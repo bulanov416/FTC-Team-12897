@@ -55,11 +55,8 @@ public class Robot {
     public static double RAMP_RIGHT_DOWN = 0.278; // was 0.18
 
     //jewel things
-    public static double RIGHT_WING_UP = 0.89; //was 0.93. it worked fine, but the button head screws were getting stuck.
-    public static double RIGHT_WING_DOWN = 0.36; // was 0.58
-
-    public static double JEWEL_SERVO_AWAY = 0;
-    public static double JEWEL_SERVO_MIDDLE = 0.5;
+    public static double RIGHT_WING_UP = 0.6; //was 0.93. it worked fine, but the button head screws were getting stuck.
+    public static double RIGHT_WING_DOWN = 0.05; // was 0.58
 
     //relic
     public static double RELIC_WINCH_MIDDLE = 0.57;
@@ -67,6 +64,7 @@ public class Robot {
     public static double RELIC_WINCH_DOWN = 0.05;
     public static double RELIC_FRONT_CLOSED = 0.05;//was  0.1
     public static double RELIC_FRONT_OPEN = 0.9;
+
 
 
     public HardwareMap map;
