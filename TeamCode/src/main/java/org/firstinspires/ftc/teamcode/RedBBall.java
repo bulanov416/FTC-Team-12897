@@ -53,11 +53,11 @@ public class RedBBall extends LinearOpMode {
             this.robot = new Robot(hardwareMap);
 
             BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-            parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-            parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
             parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-            parameters.loggingEnabled      = true;
-            parameters.loggingTag          = "IMU";
+            parameters.loggingEnabled = true;
+            parameters.loggingTag = "IMU";
             parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
             gyro.initialize(parameters);
@@ -109,8 +109,7 @@ public class RedBBall extends LinearOpMode {
                 robot.rotateLeft(0.23); // was  0.25
                 sleep(250);
                 robot.stopDrive();
-            }
-            else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
+            } else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
                 robot.rotateLeft(0.23);
                 sleep(250);
                 robot.stopDrive();
@@ -127,11 +126,12 @@ public class RedBBall extends LinearOpMode {
             robot.forward(0.5);
             sleep(850);
 
-            robot.strafeRight(0.2);
+            robot.strafeLeft(0.2);
             sleep(600);
 
             robot.forward(0.5);
             sleep(1000);
+        }
 
             /*robot.forward(0.56);
             sleep(980);
@@ -153,8 +153,8 @@ public class RedBBall extends LinearOpMode {
             robot.stopDrive();
 
             if (opModeIsActive()) {
-                rotate180(179, 0.2); // was 0.45
-                //pTurn(179, 0.4);
+                //rotate180(179, 0.2); // was 0.45
+                pTurn(179, 0.02);
             }
             robot.between();
 
@@ -165,8 +165,8 @@ public class RedBBall extends LinearOpMode {
             sleep(1500);
 
             if (opModeIsActive()) {
-                rotate(179,0.2);
-                //pTurn(179, 0.3);
+                //rotate(179, 0.2);
+                pTurn(179, 0.02);
             }
 
             //Drive Forwards
@@ -223,7 +223,7 @@ public class RedBBall extends LinearOpMode {
             robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
 
             ///////////////////////////////////////////////////////
-    /*    //GRAB 2
+        /*GRAB 2
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
 
@@ -243,8 +243,8 @@ public class RedBBall extends LinearOpMode {
             } else if ((robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle + 180) > 270) {
                 robot.rotateCounterClockwise(270);
             }
-        }
-
+        }*/
+/*
         robot.drive(0.25);
         sleep(100);
         robot.stopDrive();
@@ -257,9 +257,16 @@ public class RedBBall extends LinearOpMode {
         sleep(1000);
         robot.drive(0.25);
         sleep(500);
-        robot.stopDrive();*/
+        robot.stopDrive();
 
         }
+    }
+
+    /**
+     * Alex's first rotate function.
+     * @param target target heading
+     * @param power power to turn at
+     */
     public void rotate(double target, double power) {
         double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         if (angle > target && opModeIsActive()) {
@@ -276,6 +283,12 @@ public class RedBBall extends LinearOpMode {
             robot.stopDrive();
         }
     }
+
+    /**
+     * Alex's attempt at fixing his first turn function.
+     * @param target target heading
+     * @param power power to turn at
+     */
     public void rotate180(double target, double power) {
         double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         if (angle < 0 && opModeIsActive()) {
@@ -293,6 +306,11 @@ public class RedBBall extends LinearOpMode {
         }
     }
 
+    /**
+     * Nate's Proportional turn loop.
+     * @param target target heading (-180 to 180)
+     * @param kP this should be 0.02, just don't question it.
+     */
     public void pTurn(double target, double kP) {
         double angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         double error = angle - target;

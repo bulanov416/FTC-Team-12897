@@ -166,6 +166,10 @@ public class RedFoos extends LinearOpMode {
         }
         robot.stopDrive();
 
+        robot.forward(0.4);
+        sleep(80);
+        robot.between();
+
         if (opModeIsActive()) {
             rotate(90, 0.2);
         }

@@ -20,8 +20,8 @@ import java.util.Date;
 /**
  * Created by Alex Bulanov on 1/28/2018.
  */
-@Autonomous(name="BlueBBallFoos")
-public class BlueBBallFoos extends LinearOpMode {
+@Autonomous(name="BlueBBall")
+public class BlueBBall extends LinearOpMode {
     // Creates a variable of type robot, titled robot.
     public Robot robot;
 
@@ -97,7 +97,7 @@ public class BlueBBallFoos extends LinearOpMode {
         sleep(500);
 
         //Scan Jewel
-        if (robot.jewelColor.blue() > robot.jewelColor.red()) {
+        if (robot.jewelColor.blue() < robot.jewelColor.red()) {
             robot.rotateRight(0.23); // was 0.25
             sleep(250);
             robot.stopDrive();
@@ -107,7 +107,7 @@ public class BlueBBallFoos extends LinearOpMode {
             sleep(250);
             robot.stopDrive();
         }
-        else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
+        else if (robot.jewelColor.blue() > robot.jewelColor.red()) {
             robot.rotateLeft(0.23);
             sleep(250);
             robot.stopDrive();
@@ -120,8 +120,17 @@ public class BlueBBallFoos extends LinearOpMode {
         robot.wing.setPosition(robot.RIGHT_WING_UP);
         sleep(500);
 
+        robot.backward(0.5);
+        sleep(850);
+
+        robot.strafeRight(0.2);
+        sleep(600);
+
+        robot.backward(0.5);
+        sleep(1000);
+
         // Drive forward for 2 Seconds
-        robot.forward(0.56); // was 0.6
+       /* robot.forward(0.56); // was 0.6
         sleep(2000);
         robot.stopDrive();
 
