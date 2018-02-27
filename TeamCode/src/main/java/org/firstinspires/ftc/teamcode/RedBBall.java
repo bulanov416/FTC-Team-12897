@@ -19,9 +19,6 @@ import java.util.Date;
 
 import static java.lang.Math.abs;
 
-/**
- * Created by Alex Bulanov on 1/28/2018.
- */
 @Autonomous(name="RedBBall")
 public class RedBBall extends LinearOpMode {
 
@@ -126,21 +123,12 @@ public class RedBBall extends LinearOpMode {
             robot.forward(0.5);
             sleep(850);
 
-            robot.strafeLeft(0.2);
-            sleep(600);
-
-            robot.forward(0.5);
-            sleep(1000);
-        }
-
-            /*robot.forward(0.56);
-            sleep(980);
             // Drive forward for 2 Seconds
             //Drive Backwards to stone
             long startTime = System.currentTimeMillis();
             long timeElapsed = 0L;
             robot.backward(0.43); //was 0.4
-            while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 5000) {
+            while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 2000) {
                 timeElapsed = (new Date()).getTime() - startTime;
                 telemetry.addLine("Looking for Balancing Stone");
                 telemetry.update();
@@ -152,22 +140,17 @@ public class RedBBall extends LinearOpMode {
             sleep(200);
             robot.stopDrive();
 
+            robot.strafeLeft(0.2);
+            sleep(1000);
+            robot.stopDrive();
+
             if (opModeIsActive()) {
-                //rotate180(179, 0.2); // was 0.45
-                pTurn(179, 0.02);
+                rotate180(0.177);
             }
             robot.between();
 
-            robot.strafeRight(0.2);
-            sleep(1000);
-
             robot.backward(0.55); // was 0.4
             sleep(1500);
-
-            if (opModeIsActive()) {
-                //rotate(179, 0.2);
-                pTurn(179, 0.02);
-            }
 
             //Drive Forwards
             robot.forward(0.3); // was 0.45
@@ -175,17 +158,19 @@ public class RedBBall extends LinearOpMode {
             robot.stopDrive();
 
             robot.strafeLeft(0.2);
-            sleep(950);
+            sleep(1000);
             robot.between();
+            robot.strafeRight(0.2);
             //Strafe to Correct Column
-            robot.strafeRight(0.18);// was 0.2
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
+
                 telemetry.addLine("Looking for Right");
                 telemetry.update();
             }
             if (robot.vuMarkData == 'C' || robot.vuMarkData == 'L') {
                 sleep(400);
                 while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
+
                     telemetry.addLine("Looking for Center");
                     telemetry.update();
                 }
@@ -197,10 +182,10 @@ public class RedBBall extends LinearOpMode {
                     telemetry.update();
                 }
             }
-
-            robot.strafeRight(0.14);//  was 0.1
+            robot.between();
+            robot.strafeLeft(0.12);//  was 0.1
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
-                telemetry.addLine("Looking for Left");
+                telemetry.addLine("Correction");
                 telemetry.update();
             }
             robot.stopDrive();
@@ -213,15 +198,15 @@ public class RedBBall extends LinearOpMode {
             robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
             sleep(2000);
             robot.forward(0.3);
-            sleep(400);
+            sleep(800);
             robot.backward(0.35);
-            sleep(500);
+            sleep(800);
             robot.forward(0.4);//0.5
             sleep(600);
             robot.stopDrive();
             robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
             robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
-
+        }
             ///////////////////////////////////////////////////////
         /*GRAB 2
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
@@ -284,22 +269,17 @@ public class RedBBall extends LinearOpMode {
         }
     }
 
-    /**
-     * Alex's attempt at fixing his first turn function.
-     * @param target target heading
-     * @param power power to turn at
-     */
-    public void rotate180(double target, double power) {
+    public void rotate180(double power) {
         double angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
         if (angle < 0 && opModeIsActive()) {
-            while (angle < target && opModeIsActive()) {
+            while (angle < 0 && opModeIsActive()) {
                 angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
                 robot.rotateRight(power);
             }
             robot.stopDrive();
         }
-        if (angle > 0 && opModeIsActive()) {
-            while  (angle < target && opModeIsActive()) {
+        else if (angle > 0 && opModeIsActive()) {
+            while  (angle > 0 && opModeIsActive()) {
                 angle = (gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
                 robot.rotateLeft(power);
             }
@@ -318,6 +298,17 @@ public class RedBBall extends LinearOpMode {
             robot.rotateLeft(error * kP);
             angle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
             error = angle - target;
+        }
+    }
+
+    public void strafeRightStraight (double power, double angle) {
+        angle = Math.abs(gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+        robot.strafeRight(power);
+        if (angle < 179){
+            rotate180(0.2);
+        }
+        else {
+            robot.strafeRight(-0.1);
         }
     }
 
