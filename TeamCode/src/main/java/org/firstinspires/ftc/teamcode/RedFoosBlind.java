@@ -150,7 +150,7 @@ public class RedFoosBlind extends LinearOpMode {
         robot.intakeGlyph(0.9);
         long startTime2 = System.currentTimeMillis();
         long timeElapsed2 = 0L;
-        while (robot.getGlyph() > 15 && timeElapsed2 < 2500) {
+        while (robot.getGlyph() < 15 && timeElapsed2 < 1800) {
             timeElapsed2 = (new Date()).getTime() - startTime2;
         }
         robot.stopDrive();
