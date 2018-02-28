@@ -188,9 +188,21 @@ public class RedBBall extends LinearOpMode {
                 telemetry.addLine("Correction");
                 telemetry.update();
             }
+            robot.between();
+
+            robot.strafeRight(0.15);
+            sleep(400);
+            robot.stopDrive();
+            robot.strafeLeft(0.12);//  was 0.1
+            while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
+                telemetry.addLine("Correction");
+                telemetry.update();
+            }
             robot.stopDrive();
 
             //Dump Blocks
+            robot.inRight.setPower(-0.95);
+            robot.inLeft.setPower(-0.95);
             robot.forward(0.25); // was 0.5
             sleep(500);
             robot.stopDrive();

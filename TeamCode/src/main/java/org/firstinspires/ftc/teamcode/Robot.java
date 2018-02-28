@@ -35,12 +35,12 @@ public class Robot {
     public Servo jewelServo;
 
     //Column sensors
-    public ColorSensor columnColorLeft;
-    public ColorSensor columnColorRight;
+
     public DistanceSensor columnDistanceLeft;
     public DistanceSensor columnDistanceRight;
 
     public ColorSensor jewelColor;
+    public DistanceSensor glyphDetect;
 
     public NavxMicroNavigationSensor navxMicro;
     public ElapsedTime timer = new ElapsedTime();
@@ -94,6 +94,9 @@ public class Robot {
         wing = hardwareMap.servo.get("wing");
         jewelServo = hardwareMap.servo.get("jewelservo");
         jewelColor = hardwareMap.colorSensor.get("jc");
+
+        //Glyph Stuff
+        glyphDetect = hardwareMap.get(DistanceSensor.class, "glyph");
 
         //Relic
         relic = hardwareMap.dcMotor.get("relic");
@@ -186,5 +189,10 @@ public class Robot {
     public double getDL() {
         double distanceLeft = columnDistanceLeft.getDistance(DistanceUnit.CM);
         return distanceLeft;
+    }
+
+    public double getGlyph() {
+        double glyphDistance = glyphDetect.getDistance(DistanceUnit.CM);
+        return glyphDistance;
     }
 }

@@ -117,16 +117,16 @@ public class RedFoosBlind extends LinearOpMode {
 
         // Drive forward for 2 Seconds
         robot.forward(0.56); // was 0.6
-        sleep(1100);//was 2000
+        sleep(1000);//was 2000
         robot.stopDrive();
 
         //Drive Backwards to stone
         long startTime = System.currentTimeMillis();
         long timeElapsed = 0L;
         robot.forward(-0.4); //was 0.7
-        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 2500) {
+        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 1200) {
             timeElapsed = (new Date()).getTime() - startTime;
-            telemetry.addLine("Looking for Balancing Stone");
+            telemetry.addLine( "Looking for Balancing Stone");
             telemetry.update();
         }
         robot.stopDrive();
@@ -137,7 +137,7 @@ public class RedFoosBlind extends LinearOpMode {
         robot.stopDrive();
 
         if (opModeIsActive()) {
-            rotate(90, 0.25); // was 0.45
+            rotate(90, 0.3); // was 0.45
         }
         robot.between();
         if (opModeIsActive()) {
@@ -148,7 +148,11 @@ public class RedFoosBlind extends LinearOpMode {
         //GRAB 2
         robot.forward(0.6);
         robot.intakeGlyph(0.9);
-        sleep(1900);//was 2000
+        long startTime2 = System.currentTimeMillis();
+        long timeElapsed2 = 0L;
+        while (robot.getGlyph() > 15 && timeElapsed2 < 2500) {
+            timeElapsed2 = (new Date()).getTime() - startTime2;
+        }
         robot.stopDrive();
 
         if (opModeIsActive()) {
@@ -160,7 +164,7 @@ public class RedFoosBlind extends LinearOpMode {
         }
 
         robot.backward(0.6);
-        sleep(2400);
+        sleep(2300);
         robot.stopDrive();
 
         if (opModeIsActive()) {
@@ -168,7 +172,7 @@ public class RedFoosBlind extends LinearOpMode {
         }
 
         robot.strafeLeft(0.2);
-        sleep(550);
+        sleep(500);
         robot.stopDrive();
 
 /*        robot.forward(0.36);
@@ -176,7 +180,7 @@ public class RedFoosBlind extends LinearOpMode {
         robot.between();
 */
         if (opModeIsActive()) {
-            rotate(90,0.2);
+            rotate(90,0.16);
         }
         //Strafe to Correct Column
         robot.strafeRight(0.18);// was 0.14
@@ -185,14 +189,14 @@ public class RedFoosBlind extends LinearOpMode {
             telemetry.update();
         }
         if (robot.vuMarkData == 'C' || robot.vuMarkData == 'L') {
-            sleep(550);
+            sleep(500);
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
                 telemetry.addLine("Looking for Center");
                 telemetry.update();
             }
         }
         if (robot.vuMarkData == 'L') {
-            sleep(550);
+            sleep(500);
             while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive()) {
                 telemetry.addLine("Looking for Left");
                 telemetry.update();
@@ -211,18 +215,16 @@ public class RedFoosBlind extends LinearOpMode {
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
-        sleep(1000);
-        robot.forward(0.5);//0.5
-        sleep(250);
-        robot.stopDrive();
-        robot.stopDrive();
+        sleep(800);
+        robot.backward(0.4);
+        sleep(600);
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
         ///////////////////////////////////////////////////////
         //GRAB 2
         robot.forward(0.6);
         robot.intakeGlyph(0.9);
-        sleep(1900);//was 2000
+        sleep(1800);//was 2000
         robot.stopDrive();
 
         if (opModeIsActive()) {
@@ -234,7 +236,7 @@ public class RedFoosBlind extends LinearOpMode {
         }
 
         robot.backward(0.6);
-        sleep(2400);
+        sleep(2300);
         robot.stopDrive();
 
         if (opModeIsActive()) {
@@ -242,7 +244,7 @@ public class RedFoosBlind extends LinearOpMode {
         }
 
         robot.strafeLeft(0.2);
-        sleep(550);
+        sleep(500);
         robot.stopDrive();
 
 /*        robot.forward(0.36);
@@ -258,9 +260,9 @@ public class RedFoosBlind extends LinearOpMode {
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_UP);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_UP);
-        sleep(1000);
+        sleep(600);
         robot.forward(0.5);//0.5
-        sleep(250);
+        sleep(200);
         robot.stopDrive();
         robot.leftLift.setPosition(robot.RAMP_LEFT_DOWN);
         robot.rightLift.setPosition(robot.RAMP_RIGHT_DOWN);
