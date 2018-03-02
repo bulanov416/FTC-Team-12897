@@ -17,8 +17,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import java.util.Date;
 
-@Autonomous(name="RedFoosBlind")
-public class RedFoosBlind extends LinearOpMode {
+@Autonomous(name="BlueFoosBlind")
+public class BlueFoosBlind extends LinearOpMode {
 
     // Creates a variable of type robot, titled robot.
     public Robot robot;
@@ -88,7 +88,7 @@ public class RedFoosBlind extends LinearOpMode {
         sleep(500);
 
         //Scan Jewel
-        if (robot.jewelColor.blue() > robot.jewelColor.red()) {
+        if (robot.jewelColor.blue() < robot.jewelColor.red()) {
             robot.rotateRight(0.23); // was 0.25
             sleep(250);
             robot.stopDrive();
@@ -97,7 +97,7 @@ public class RedFoosBlind extends LinearOpMode {
             robot.rotateLeft(0.23); // was  0.25
             sleep(250);
             robot.stopDrive();
-        } else if (robot.jewelColor.blue() < robot.jewelColor.red()) {
+        } else if (robot.jewelColor.blue() > robot.jewelColor.red()) {
             robot.rotateLeft(0.23);
             sleep(250);
             robot.stopDrive();
@@ -111,15 +111,19 @@ public class RedFoosBlind extends LinearOpMode {
         sleep(500);
 
         // Drive forward for 2 Seconds
-        robot.forward(0.56); // was 0.6
+        robot.backward(0.56); // was 0.6
         sleep(1000);//was 2000
         robot.stopDrive();
+
+        if (opModeIsActive()) {
+            rotate(0, 0.2); // was 0.45
+        }
 
         //Drive Backwards to stone
         long startTime = System.currentTimeMillis();
         long timeElapsed = 0L;
-        robot.forward(-0.4); //was 0.7
-        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 1000) {
+        robot.backward(0.4); //was 0.7
+        while (!(robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) && opModeIsActive() && timeElapsed < 2000) {
             timeElapsed = (new Date()).getTime() - startTime;
             telemetry.addLine( "Looking for Balancing Stone");
             telemetry.update();

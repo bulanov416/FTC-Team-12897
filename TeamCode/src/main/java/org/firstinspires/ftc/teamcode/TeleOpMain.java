@@ -14,6 +14,18 @@ public class TeleOpMain extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
+            if (robot.getDR() < 15 && robot.getDR() > 5 && robot.getDL() < 15 && robot.getDL() > 5) {
+                telemetry.addData("Aligned: ", true);
+            } else {
+                telemetry.addData("Aligned: ", false);
+            }
+
+            if (robot.getGlyph() > 5 && robot.getGlyph() < 10) {
+                telemetry.addData("Fully Loaded", true);
+            } else {
+                telemetry.addData("Fully Loaded", false);
+            }
+
             float gamepad1LeftY = -gamepad1.left_stick_y;
             float gamepad1LeftX = gamepad1.left_stick_x;
             float gamepad1RightX = gamepad1.right_stick_x;

@@ -18,6 +18,7 @@ public class Telemetry extends LinearOpMode {
             telemetry.addData("Column Distance Right: ", robot.getDR());
             telemetry.addData("Jewel Color: ", robot.jewelColor.red());
             telemetry.addData("Jewel Color: ", robot.jewelColor.blue());
+            telemetry.addData("Glyph DetectL: ", robot.getGlyph());
             telemetry.update();
         }
     }
