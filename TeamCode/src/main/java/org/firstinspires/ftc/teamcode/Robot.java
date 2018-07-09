@@ -6,19 +6,26 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 
 public class Robot {
     public HardwareMap map;
-    public AnalogInput encoder;
+    public AnalogInput xLeft;
+    public AnalogInput xRight;
+    public AnalogInput y;
     public DcMotor fl;
     public DcMotor fr;
     public DcMotor bl;
     public DcMotor br;
-    double encoderAngle;
+    public Double wheelDiameter;
 
     public Robot (HardwareMap hardwareMap) {
         this.map = hardwareMap;
-        encoder = map.analogInput.get("encoder");
+        xLeft = map.analogInput.get("xLeft");
+        xRight = map.analogInput.get("xRight");
+        y = map.analogInput.get("y");
         //fl = map.dcMotor.get("fl");
         //fr = map.dcMotor.get("fr");
         //bl = map.dcMotor.get("bl");
         //br = map.dcMotor.get("br");
     }
+
+
+
 }
