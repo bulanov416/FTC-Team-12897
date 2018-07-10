@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 
 public class Robot {
     public HardwareMap map;
-    public AnalogInput xLeft;
-    public AnalogInput xRight;
-    public AnalogInput y;
+    public static AnalogInput xLeft;
+    public static AnalogInput xRight;
+    public static AnalogInput y;
     public DcMotor fl;
     public DcMotor fr;
     public DcMotor bl;

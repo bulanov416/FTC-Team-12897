@@ -33,16 +33,13 @@ public class Odometry extends LinearOpMode {
         robot.xRight.resetDeviceConfigurationForOpMode();
         robot.y.resetDeviceConfigurationForOpMode();
         while (opModeIsActive()) {
-            xLeft.newAngle = robot.xLeft.getVoltage()/3.26*360;
-            xRight.newAngle = robot.xLeft.getVoltage()/3.26*360;
-            y.newAngle = robot.xLeft.getVoltage()/3.26*360;
-
             Encoder.updatePosition(xLeft, xRight, y);
 
+            telemetry.addData("xLeft Distance Traveled: ", Encoder.returnDistanceTraveled(xLeft));
+            telemetry.addData("xRight Distance Traveled: ", Encoder.returnDistanceTraveled(xRight));
             telemetry.addLine("xLeft Angle: " + xLeft.newAngle);
             telemetry.addLine("xRight Angle: " + xRight.newAngle);
             telemetry.addLine("y Angle: " + y.newAngle);
-
             telemetry.addLine("X: " + X);
             telemetry.addLine("Y: " + Y);
             telemetry.addLine("DEG: " + DEG);
