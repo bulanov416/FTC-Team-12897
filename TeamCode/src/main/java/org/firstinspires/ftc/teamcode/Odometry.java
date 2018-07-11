@@ -11,9 +11,9 @@ public class Odometry extends LinearOpMode {
 
     public Robot robot;
 
-    public Encoder xLeft;
-    public Encoder xRight;
-    public Encoder y;
+    public Encoder left;
+    public Encoder right;
+    public Encoder center;
 
     public static double X;
     public static double Y;
@@ -24,26 +24,26 @@ public class Odometry extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         this.robot = new Robot(hardwareMap);
 
-        this.xLeft = new Encoder();
-        this.xRight = new Encoder();
-        this.y = new Encoder();
+        this.left = new Encoder();
+        this.right = new Encoder();
+        this.center = new Encoder();
 
         waitForStart();
-        robot.xLeft.resetDeviceConfigurationForOpMode();
-        robot.xRight.resetDeviceConfigurationForOpMode();
-        robot.y.resetDeviceConfigurationForOpMode();
+        robot.left.resetDeviceConfigurationForOpMode();
+        robot.right.resetDeviceConfigurationForOpMode();
+        robot.center.resetDeviceConfigurationForOpMode();
         while (opModeIsActive()) {
-            Encoder.updatePosition(xLeft, xRight, y);
+            Encoder.updatePosition(left, right, center);
 
-            telemetry.addData("xLeft Distance Traveled: ", Encoder.returnDistanceTraveled(xLeft));
-            telemetry.addData("xRight Distance Traveled: ", Encoder.returnDistanceTraveled(xRight));
-            telemetry.addLine("xLeft Angle: " + xLeft.newAngle);
-            telemetry.addLine("xRight Angle: " + xRight.newAngle);
-            telemetry.addLine("y Angle: " + y.newAngle);
+            telemetry.addData("left Distance Traveled: ", Encoder.returnDistanceTraveled(left));
+            telemetry.addData("right Distance Traveled: ", Encoder.returnDistanceTraveled(right));
+            telemetry.addData("center Distance Traveled: ", Encoder.returnDistanceTraveled(center));
+            telemetry.addLine("left Angle: " + left.newAngle);
+            telemetry.addLine("right Angle: " + right.newAngle);
+            telemetry.addLine("center Angle: " + center.newAngle);
             telemetry.addLine("X: " + X);
             telemetry.addLine("Y: " + Y);
             telemetry.addLine("DEG: " + DEG);
-
             telemetry.update();
 
         }

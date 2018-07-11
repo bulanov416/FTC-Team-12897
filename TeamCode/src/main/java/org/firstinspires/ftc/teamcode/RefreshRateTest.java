@@ -27,28 +27,28 @@ public class RefreshRateTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if ((temp != (robot.xLeft.getVoltage()/3.26*360)) && timeElapsed < 3000) {
+            if ((temp != (robot.left.getVoltage()/3.26*360)) && timeElapsed < 3000) {
                 refreshCounterThreeSeconds++;
-                temp = (robot.xLeft.getVoltage()/3.26*360);
+                temp = (robot.left.getVoltage()/3.26*360);
                 timeElapsed = (new Date()).getTime() - startTime;
             }
 
-            if ((temp != (robot.xLeft.getVoltage()/3.26*360)) && timeElapsed < 5000) {
+            if ((temp != (robot.left.getVoltage()/3.26*360)) && timeElapsed < 5000) {
                 refreshCounterFiveSeconds++;
-                temp = (robot.xLeft.getVoltage()/3.26*360);
+                temp = (robot.left.getVoltage()/3.26*360);
                 timeElapsed = (new Date()).getTime() - startTime;
             }
 
-            if ((temp != (robot.xLeft.getVoltage()/3.26*360)) && timeElapsed < 10000) {
+            if ((temp != (robot.left.getVoltage()/3.26*360)) && timeElapsed < 10000) {
                 refreshCounterTenSeconds++;
-                temp = (robot.xLeft.getVoltage()/3.26*360);
+                temp = (robot.left.getVoltage()/3.26*360);
                 timeElapsed = (new Date()).getTime() - startTime;
             }
 
             telemetry.addData("Three Seconds: ", refreshCounterThreeSeconds/3);
             telemetry.addData("Five Seconds: ", refreshCounterFiveSeconds/5);
             telemetry.addData("Ten Seconds: ", refreshCounterTenSeconds/10);
-            telemetry.addData("xLeft Encoder Data", robot.xLeft.getVoltage()/3.26*360);
+            telemetry.addData("xLeft Encoder Data", robot.left.getVoltage()/3.26*360);
             telemetry.update();
         }
     }

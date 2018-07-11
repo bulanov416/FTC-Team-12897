@@ -11,6 +11,7 @@ public class Encoder {
     static double deltaLeft;
     static double deltaRight;
     static double deltaCenter;
+    static double deltaTheta;
 
     public Encoder() {
         newAngle = 0;
@@ -40,24 +41,34 @@ public class Encoder {
 
     public static void updatePosition(Encoder xLeft, Encoder xRight, Encoder y) {
 
-        xLeft.newAngle = Robot.xLeft.getVoltage() / 3.26 * 360;
-        xRight.newAngle = Robot.xRight.getVoltage() / 3.26 * 360;
-        y.newAngle = Robot.y.getVoltage() / 3.26 * 360;
+        xLeft.newAngle = Robot.left.getVoltage() / 3.26 * 360;
+        xRight.newAngle = Robot.right.getVoltage() / 3.26 * 360;
+        y.newAngle = Robot.center.getVoltage() / 3.26 * 360;
 
         deltaLeft = returnDistanceTraveled(xLeft);
         deltaRight = -returnDistanceTraveled(xRight);
         deltaCenter = returnDistanceTraveled(y);
+        deltaTheta = Math.toDegrees(Math.acos(1 - ((Math.pow(deltaRight - deltaLeft, 2)) / (2 * Math.pow(robotRadius, 2)))));
 
+        // Degree
         if (deltaRight > deltaLeft) {
-            Odometry.DEG -= Math.toDegrees(Math.acos(1 - ((Math.pow(deltaRight - deltaLeft, 2)) / (2 * Math.pow(robotRadius, 2)))));
+            Odometry.DEG -= deltaTheta;
         }
         if (deltaLeft > deltaRight) {
-            Odometry.DEG += Math.toDegrees(Math.acos(1 - ((Math.pow(deltaLeft - deltaRight, 2)) / (2 * Math.pow(robotRadius, 2)))));
+            Odometry.DEG += deltaTheta;
         }
         if (Odometry.DEG > 360) {
             Odometry.DEG = Odometry.DEG - 360;
         } else if (Odometry.DEG < 0) {
             Odometry.DEG = Odometry.DEG + 360;
         }
+
+        //Distance traveled calculations
+        //Data from left and right sensors
+        Odometry.X += ((deltaLeft+deltaRight)/2)*Math.cos(90-(Odometry.DEG-deltaTheta));
+        Odometry.Y += ((deltaLeft+deltaRight)/2)*Math.sin(90-(Odometry.DEG-deltaTheta));
+        //Data from center sensor
+        Odometry.X += ((deltaCenter)/2)*Math.cos(90-(Odometry.DEG-deltaTheta));
+        Odometry.Y += ((deltaCenter)/2)*Math.sin(90-(Odometry.DEG-deltaTheta));
     }
 }
