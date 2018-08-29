@@ -18,20 +18,22 @@ public class Odometry extends LinearOpMode {
     public static double X;
     public static double Y;
     public static double DEG;
+    public static double DeltaRL;
 
     public static ArrayList<Encoder> allEncoders = new ArrayList<Encoder>();
 
     public void runOpMode() throws InterruptedException {
         this.robot = new Robot(hardwareMap);
-
         this.left = new Encoder();
         this.right = new Encoder();
         this.center = new Encoder();
-
         waitForStart();
         robot.left.resetDeviceConfigurationForOpMode();
         robot.right.resetDeviceConfigurationForOpMode();
         robot.center.resetDeviceConfigurationForOpMode();
+        Encoder.angleLeftAdjust = Robot.left.getVoltage() / 3.26 * 360;
+        Encoder.angleRightAdjust = Robot.right.getVoltage() / 3.26 * 360;
+        Encoder.angleCenterAdjust = Robot.center.getVoltage() / 3.26 * 360;
         while (opModeIsActive()) {
             Encoder.updatePosition(left, right, center);
 
@@ -44,6 +46,7 @@ public class Odometry extends LinearOpMode {
             telemetry.addLine("X: " + X);
             telemetry.addLine("Y: " + Y);
             telemetry.addLine("DEG: " + DEG);
+            telemetry.addLine("deltaRL: " + DeltaRL);
             telemetry.update();
 
         }

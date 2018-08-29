@@ -6,8 +6,11 @@ public class Encoder {
     String encoderName;
     double newAngle;
     double oldAngle;
-    static double wheelCircumference = 1.89 * Math.PI; //Inches
-    static double robotRadius = 14.6; //Inches
+    static double wheelCircumference = 4 * Math.PI; //Inches
+    static double robotDiameter = 8.2; //Inches
+    static double angleLeftAdjust;
+    static double angleRightAdjust;
+    static double angleCenterAdjust;
     static double deltaLeft;
     static double deltaRight;
     static double deltaCenter;
@@ -41,27 +44,32 @@ public class Encoder {
 
     public static void updatePosition(Encoder xLeft, Encoder xRight, Encoder y) {
 
-        xLeft.newAngle = Robot.left.getVoltage() / 3.26 * 360;
-        xRight.newAngle = Robot.right.getVoltage() / 3.26 * 360;
-        y.newAngle = Robot.center.getVoltage() / 3.26 * 360;
+
+        xLeft.newAngle = Robot.left.getVoltage() / 3.26 * 360 - angleLeftAdjust;
+        xRight.newAngle = Robot.right.getVoltage() / 3.26 * 360 - angleRightAdjust;
+        y.newAngle = Robot.center.getVoltage() / 3.26 * 360 - angleCenterAdjust;
+
+
 
         deltaLeft = returnDistanceTraveled(xLeft);
         deltaRight = -returnDistanceTraveled(xRight);
         deltaCenter = returnDistanceTraveled(y);
-        deltaTheta = Math.toDegrees(Math.acos(1 - ((Math.pow(deltaRight - deltaLeft, 2)) / (2 * Math.pow(robotRadius, 2)))));
+        //deltaTheta = Math.toDegrees(Math.acos(1 - ((Math.pow(deltaRight - deltaLeft, 2)) / (2 * Math.pow(robotRadius, 2)))));
+        deltaTheta = ((deltaRight - deltaLeft) / robotDiameter) * 360;
 
+        Odometry.DEG += deltaTheta;
         // Degree
-        if (deltaRight > deltaLeft) {
-            Odometry.DEG -= deltaTheta;
-        }
-        if (deltaLeft > deltaRight) {
-            Odometry.DEG += deltaTheta;
-        }
-        if (Odometry.DEG > 360) {
-            Odometry.DEG = Odometry.DEG - 360;
-        } else if (Odometry.DEG < 0) {
-            Odometry.DEG = Odometry.DEG + 360;
-        }
+      //  if (deltaRight > deltaLeft) {
+            //Odometry.DEG -= deltaTheta;
+        //}
+        //if (deltaLeft > deltaRight) {
+          //  Odometry.DEG += deltaTheta;
+        //}
+        //if (Odometry.DEG > 360) {
+           // Odometry.DEG = Odometry.DEG - 360;
+        //} else if (Odometry.DEG < 0) {
+           // Odometry.DEG = Odometry.DEG + 360;
+       // }
 
         //Distance traveled calculations
         //Data from left and right sensors
@@ -70,5 +78,6 @@ public class Encoder {
         //Data from center sensor
         Odometry.X += ((deltaCenter)/2)*Math.cos(90-(Odometry.DEG-deltaTheta));
         Odometry.Y += ((deltaCenter)/2)*Math.sin(90-(Odometry.DEG-deltaTheta));
+        Odometry.DeltaRL += (deltaRight - deltaLeft);
     }
 }
