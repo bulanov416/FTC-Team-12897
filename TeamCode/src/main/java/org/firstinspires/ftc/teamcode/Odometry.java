@@ -27,6 +27,7 @@ public class Odometry extends LinearOpMode {
         this.left = new Encoder();
         this.right = new Encoder();
         this.center = new Encoder();
+        StaticLog.clearLog();
         waitForStart();
         robot.left.resetDeviceConfigurationForOpMode();
         robot.right.resetDeviceConfigurationForOpMode();

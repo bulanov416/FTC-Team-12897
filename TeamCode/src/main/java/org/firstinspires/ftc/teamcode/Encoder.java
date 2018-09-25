@@ -7,7 +7,7 @@ public class Encoder {
     double newAngle;
     double oldAngle;
     static double wheelCircumference = 4 * Math.PI; //Inches
-    static double robotDiameter = 8.2; //Inches
+    static double robotDiameter = 9.2; //Inches
     static double angleLeftAdjust;
     static double angleRightAdjust;
     static double angleCenterAdjust;
@@ -24,7 +24,8 @@ public class Encoder {
 
     public static double returnDistanceTraveled(Encoder encoder) {
 
-        double newEncoderAngle = encoder.newAngle + (180 - encoder.oldAngle);
+        //double newEncoderAngle = encoder.newAngle + (180 - (encoder.oldAngle));
+        double newEncoderAngle = encoder.newAngle - (encoder.oldAngle);
 
 
         if (newEncoderAngle > 360) {
@@ -50,14 +51,14 @@ public class Encoder {
         y.newAngle = Robot.center.getVoltage() / 3.26 * 360 - angleCenterAdjust;
 
 
-
         deltaLeft = returnDistanceTraveled(xLeft);
         deltaRight = -returnDistanceTraveled(xRight);
         deltaCenter = returnDistanceTraveled(y);
         //deltaTheta = Math.toDegrees(Math.acos(1 - ((Math.pow(deltaRight - deltaLeft, 2)) / (2 * Math.pow(robotRadius, 2)))));
-        deltaTheta = ((deltaRight - deltaLeft) / robotDiameter) * 360;
+        deltaTheta = Math.toDegrees((deltaRight - deltaLeft) / robotDiameter);
 
         Odometry.DEG += deltaTheta;
+        Odometry.DEG = Odometry.DEG % 360;
         // Degree
       //  if (deltaRight > deltaLeft) {
             //Odometry.DEG -= deltaTheta;
@@ -73,11 +74,22 @@ public class Encoder {
 
         //Distance traveled calculations
         //Data from left and right sensors
-        Odometry.X += ((deltaLeft+deltaRight)/2)*Math.cos(90-(Odometry.DEG-deltaTheta));
+        /*Odometry.X += ((deltaLeft+deltaRight)/2)*Math.cos(90-(Odometry.DEG-deltaTheta));
         Odometry.Y += ((deltaLeft+deltaRight)/2)*Math.sin(90-(Odometry.DEG-deltaTheta));
         //Data from center sensor
         Odometry.X += ((deltaCenter)/2)*Math.cos(90-(Odometry.DEG-deltaTheta));
-        Odometry.Y += ((deltaCenter)/2)*Math.sin(90-(Odometry.DEG-deltaTheta));
+        Odometry.Y += ((deltaCenter)/2)*Math.sin(90-(Odometry.DEG-deltaTheta));Odometry.X += ((deltaLeft+deltaRight)/2)*Math.cos(90-(Odometry.DEG-deltaTheta));
+        Odometry.Y += ((deltaLeft+deltaRight)/2)*Math.sin(90-(Odometry.DEG-deltaTheta));*/
+        //Data from center sensor
+        StaticLog.addLine("DeltaLeft: " + Double.toString(deltaLeft));
+        StaticLog.addLine("DeltaRight: " + Double.toString(deltaRight));
+        StaticLog.addLine("DeltaCenter: " + Double.toString(deltaCenter));
+        StaticLog.addLine("SinDeg: " + Double.toString(Math.sin(Math.toRadians(Odometry.DEG))));
+        StaticLog.addLine("CosDeg: " + Double.toString(Math.cos(Math.toRadians(Odometry.DEG))));
+        Odometry.X += Math.min(deltaLeft, deltaRight)*Math.cos(Math.toRadians(Odometry.DEG)) + deltaCenter*Math.sin(Math.toRadians(Odometry.DEG));
+        Odometry.Y += Math.min(deltaLeft, deltaRight)*Math.sin(Math.toRadians(Odometry.DEG)) + deltaCenter*Math.cos(Math.toRadians(Odometry.DEG));
+
+
         Odometry.DeltaRL += (deltaRight - deltaLeft);
     }
 }
