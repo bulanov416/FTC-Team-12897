@@ -24,9 +24,7 @@ public class Encoder {
 
     public static double returnDistanceTraveled(Encoder encoder) {
 
-        //double newEncoderAngle = encoder.newAngle + (180 - (encoder.oldAngle));
-        double newEncoderAngle = encoder.newAngle - (encoder.oldAngle);
-
+        double newEncoderAngle = encoder.newAngle + (180 - (encoder.oldAngle));
 
         if (newEncoderAngle > 360) {
             newEncoderAngle -= 360;
